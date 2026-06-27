@@ -128,6 +128,25 @@
      opacity: 1;
      transform: translateY(0);
    }
+
+   /* Terminal Scanline Effect */
+   .terminal-scanline {
+     position: relative;
+     overflow: hidden;
+   }
+   .terminal-scanline::after {
+     content: " ";
+     display: block;
+     position: absolute;
+     top: 0;
+     left: 0;
+     bottom: 0;
+     right: 0;
+     background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 100, 0.02));
+     z-index: 2;
+     background-size: 100% 2px, 3px 100%;
+     pointer-events: none;
+   }
  </style>
 </head>
 <body class="bg-navy-950 text-slate-200 overflow-x-hidden selection:bg-cyan-500 selection:text-navy-950">
@@ -275,6 +294,16 @@
                <div class="relative h-[400px] bg-navy-950 overflow-hidden">
                  <img src="https://images.unsplash.com/photo-1551244072-5d12893278ab?q=80&w=1200" class="w-full h-full object-cover opacity-30 grayscale" alt="Marine Map">
                  
+                 <!-- Terminal Log Overlay -->
+                 <div class="absolute top-4 left-4 w-40 sm:w-56 h-28 bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg p-3 font-mono text-[8px] sm:text-[9px] text-cyan-400/70 overflow-hidden pointer-events-none terminal-scanline">
+                    <div id="mission-terminal" class="flex flex-col gap-1 transition-all duration-300">
+                      <div class="text-cyan-400">> VML-OS v2.4.0 Loading...</div>
+                      <div>> Establishing satellite link...</div>
+                      <div>> Link secured.</div>
+                      <div class="text-white/40">> Scanning coordinates...</div>
+                    </div>
+                 </div>
+
                  <!-- Pulsing coordinate points -->
                  <div class="absolute top-1/4 left-1/3 group/point">
                    <div class="w-4 h-4 bg-cyan-400 rounded-full animate-ping opacity-75"></div>
@@ -294,20 +323,30 @@
                    </div>
                  </div>
 
+                 <!-- Dynamic Point (Simulated Detection) -->
+                 <div id="dynamic-point" class="absolute top-1/2 left-1/2 group/point hidden opacity-0 transition-all duration-700">
+                    <div class="w-4 h-4 bg-emerald-400 rounded-full animate-ping opacity-75"></div>
+                    <div class="absolute inset-0 w-4 h-4 bg-emerald-400 rounded-full"></div>
+                    <div class="absolute top-6 left-1/2 -translate-x-1/2 w-32 bg-navy-900/90 backdrop-blur-md border border-emerald-400/30 p-2 rounded-lg opacity-0 group-hover/point:opacity-100 transition-opacity">
+                      <p class="text-[9px] font-bold text-white mb-1">Misi: Deteksi Baru</p>
+                      <p class="text-[8px] text-emerald-400">Status: Terverifikasi</p>
+                    </div>
+                  </div>
+
                  <!-- Floating Info Overlay -->
                  <div class="absolute bottom-6 left-6 right-6 p-4 bg-navy-900/80 backdrop-blur-md border border-white/10 rounded-2xl">
                    <div class="grid grid-cols-3 gap-4 text-center">
                      <div>
-                       <p class="text-[10px] text-slate-500 uppercase">Kedalaman</p>
-                       <p class="font-mono text-sm font-bold text-white">-45.2m</p>
+                       <p class="text-[10px] text-slate-500 uppercase tracking-tighter">Kedalaman</p>
+                       <p id="live-depth" class="font-mono text-sm font-bold text-white">-45.2m</p>
                      </div>
                      <div>
-                       <p class="text-[10px] text-slate-500 uppercase">Suhu Air</p>
-                       <p class="font-mono text-sm font-bold text-white">26.8°C</p>
+                       <p class="text-[10px] text-slate-500 uppercase tracking-tighter">Suhu Air</p>
+                       <p id="live-temp" class="font-mono text-sm font-bold text-white">26.8°C</p>
                      </div>
                      <div>
-                       <p class="text-[10px] text-slate-500 uppercase">Kandungan O2</p>
-                       <p class="font-mono text-sm font-bold text-cyan-400">Optimal</p>
+                       <p class="text-[10px] text-slate-500 uppercase tracking-tighter">Kandungan O2</p>
+                       <p id="live-o2" class="font-mono text-sm font-bold text-cyan-400">Optimal</p>
                      </div>
                    </div>
                  </div>
@@ -1341,6 +1380,84 @@
    document.querySelectorAll('.reveal').forEach(el => {
      revealObserver.observe(el);
    });
+
+   // LIVE MISSION LOG SIMULATION
+   const terminal = document.getElementById('mission-terminal');
+   const depthEl = document.getElementById('live-depth');
+   const tempEl = document.getElementById('live-temp');
+   const o2El = document.getElementById('live-o2');
+
+   const logMessages = [
+     "Sonar pulse sent...",
+     "Analyzing echo data...",
+     "Anomalous mass detected at 45m",
+     "Deploying ROV unit-1...",
+     "Visual link established",
+     "Ghost net identified (Nylon)",
+     "Calculating extraction vector",
+     "Pressure stable at current depth",
+     "Water salinity: 34.2 PSU",
+     "Thermal vent detected nearby",
+     "Logging impact data to blockchain",
+     "Satellite sync successful",
+     "Atmospheric pressure: 1013 hPa",
+     "Monitoring local biodiversity"
+   ];
+
+   function addLogLine(text) {
+     const line = document.createElement('div');
+     line.innerText = "> " + text;
+     line.classList.add('transition-opacity', 'duration-500');
+     terminal.appendChild(line);
+
+     // Keep only last 8 lines
+     while (terminal.children.length > 8) {
+       terminal.removeChild(terminal.firstChild);
+     }
+
+     // Scroll effect (simple pop)
+     line.style.opacity = '0';
+     setTimeout(() => { line.style.opacity = '1'; }, 50);
+   }
+
+   function updateLiveStats() {
+     // Depth: fluctuate around 45m
+     const baseDepth = 45.2;
+     const newDepth = (baseDepth + (Math.random() * 2 - 1)).toFixed(1);
+     depthEl.innerText = `-${newDepth}m`;
+
+     // Temp: fluctuate around 26.8C
+     const baseTemp = 26.8;
+     const newTemp = (baseTemp + (Math.random() * 0.4 - 0.2)).toFixed(1);
+     tempEl.innerText = `${newTemp}°C`;
+
+     // O2: occasionally change status
+     const o2States = ["Optimal", "Stable", "Nominal"];
+     o2El.innerText = o2States[Math.floor(Math.random() * o2States.length)];
+   }
+
+   // Random intervals for logs
+   setInterval(() => {
+     const msg = logMessages[Math.floor(Math.random() * logMessages.length)];
+     addLogLine(msg);
+
+     // Trigger dynamic point if specific message
+     if (msg.includes("Anomalous mass detected")) {
+        const dp = document.getElementById('dynamic-point');
+        dp.style.top = Math.floor(Math.random() * 60 + 20) + "%";
+        dp.style.left = Math.floor(Math.random() * 60 + 20) + "%";
+        dp.classList.remove('hidden');
+        setTimeout(() => dp.classList.remove('opacity-0'), 100);
+
+        setTimeout(() => {
+            dp.classList.add('opacity-0');
+            setTimeout(() => dp.classList.add('hidden'), 700);
+        }, 8000);
+     }
+   }, 3500);
+
+   // Regular interval for stats
+   setInterval(updateLiveStats, 2000);
  };
  </script>
 </body>
