@@ -36,6 +36,9 @@
          sans: ['"Plus Jakarta Sans"', 'sans-serif'],
          serif: ['"Playfair Display"', 'serif'],
          mono: ['"JetBrains Mono"', 'monospace'],
+       },
+       animation: {
+         'spin-slow': 'spin 8s linear infinite',
        }
      }
    }
@@ -128,6 +131,25 @@
      opacity: 1;
      transform: translateY(0);
    }
+
+   /* Terminal Scanline Effect */
+   .terminal-scanline {
+     position: relative;
+     overflow: hidden;
+   }
+   .terminal-scanline::after {
+     content: " ";
+     display: block;
+     position: absolute;
+     top: 0;
+     left: 0;
+     bottom: 0;
+     right: 0;
+     background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 100, 0.02));
+     z-index: 2;
+     background-size: 100% 2px, 3px 100%;
+     pointer-events: none;
+   }
  </style>
 </head>
 <body class="bg-navy-950 text-slate-200 overflow-x-hidden selection:bg-cyan-500 selection:text-navy-950">
@@ -167,17 +189,19 @@
          </span>
        </a>
        
-       <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 text-white hover:bg-white/10 transition-all focus:outline-none" aria-label="Menu">
-         <i class="fa-solid fa-bars text-sm"></i>
+       <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-lg bg-white/5 text-white hover:bg-white/10 transition-all focus:outline-none group" aria-label="Menu">
+         <div class="hamburger-line w-5 h-0.5 bg-white transition-all duration-300 group-[.active]:rotate-45 group-[.active]:translate-y-2"></div>
+         <div class="hamburger-line w-5 h-0.5 bg-white transition-all duration-300 group-[.active]:opacity-0"></div>
+         <div class="hamburger-line w-5 h-0.5 bg-white transition-all duration-300 group-[.active]:-rotate-45 group-[.active]:-translate-y-2"></div>
        </button>
      </div>
    </div>
    
-   <div id="mobileMenu" class="hidden lg:hidden border-t border-white/5 bg-navy-950/95 backdrop-blur-lg px-6 py-4 space-y-4 transition-all duration-300">
-     <a href="#tentang-kami" onclick="toggleMobileMenu()" class="block text-sm font-semibold text-slate-300 hover:text-cyan-400 transition-colors">Tentang Kami</a>
-     <a href="#masalah" onclick="toggleMobileMenu()" class="block text-sm font-semibold text-slate-300 hover:text-cyan-400 transition-colors">Ancaman Laut</a>
-     <a href="#bermain" onclick="toggleMobileMenu()" class="block text-sm font-semibold text-slate-300 hover:text-cyan-400 transition-colors">Cara Berpartisipasi</a>
-     <a href="#pendanaan" onclick="toggleMobileMenu()" class="block text-sm font-semibold text-slate-300 hover:text-cyan-400 transition-colors">Merchandise & Donasi</a>
+   <div id="mobileMenu" class="fixed inset-x-0 top-16 sm:top-20 bottom-0 bg-navy-950/98 backdrop-blur-2xl z-40 lg:hidden flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-all duration-500 scale-110">
+     <a href="#tentang-kami" onclick="toggleMobileMenu()" class="text-2xl font-serif font-bold text-white hover:text-cyan-400 transition-colors">Tentang Kami</a>
+     <a href="#masalah" onclick="toggleMobileMenu()" class="text-2xl font-serif font-bold text-white hover:text-cyan-400 transition-colors">Ancaman Laut</a>
+     <a href="#bermain" onclick="toggleMobileMenu()" class="text-2xl font-serif font-bold text-white hover:text-cyan-400 transition-colors">Cara Berpartisipasi</a>
+     <a href="#pendanaan" onclick="toggleMobileMenu()" class="text-2xl font-serif font-bold text-white hover:text-cyan-400 transition-colors">Merchandise & Donasi</a>
    </div>
  </header>
 
@@ -261,55 +285,107 @@
          <div class="lg:w-7/12 w-full order-2 lg:order-1">
            <div class="relative group">
              <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[2.5rem] blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-             <div class="relative bg-navy-900 border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl">
+             <div class="relative bg-navy-900 border-2 border-cyan-400/30 rounded-2xl overflow-hidden shadow-2xl">
                <!-- Header Map -->
-               <div class="p-6 border-b border-white/5 bg-navy-950/50 flex justify-between items-center">
+               <div class="px-6 py-4 border-b border-cyan-400/20 bg-navy-950 flex justify-between items-center">
                  <div class="flex items-center gap-3">
-                   <div class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
-                   <span class="font-mono text-xs text-slate-300 uppercase tracking-widest">Live Mission Log: Nusantara-1</span>
+                   <div class="w-3 h-3 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
+                   <span class="font-mono text-[10px] sm:text-xs text-white font-bold uppercase tracking-widest flex items-center gap-2">
+                     MISSION COMMAND DASHBOARD
+                     <span class="bg-red-600 text-white text-[7px] px-1.5 py-0.5 rounded font-black animate-pulse">LIVE</span>
+                   </span>
                  </div>
-                 <span class="text-[10px] font-mono text-cyan-400">v2.4.0-Stable</span>
+                 <div class="flex items-center gap-4">
+                    <div class="hidden sm:flex items-center gap-1.5">
+                        <div class="w-1.5 h-3 bg-cyan-400/30"></div>
+                        <div class="w-1.5 h-3 bg-cyan-400/60"></div>
+                        <div class="w-1.5 h-3 bg-cyan-400 animate-pulse"></div>
+                    </div>
+                    <span class="text-[9px] font-mono text-cyan-400/70 font-bold">VML_OS_DASH_v4</span>
+                 </div>
                </div>
                
                <!-- Content: Visual representation of a mission -->
-               <div class="relative h-[400px] bg-navy-950 overflow-hidden">
-                 <img src="https://images.unsplash.com/photo-1551244072-5d12893278ab?q=80&w=1200" class="w-full h-full object-cover opacity-30 grayscale" alt="Marine Map">
+               <div id="mission-map" class="relative h-[600px] sm:h-[480px] bg-navy-950 overflow-hidden">
+                 <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-cyan-500/5 via-transparent to-transparent z-10"></div>
+                 <img src="https://img.freepik.com/free-photo/futuristic-digital-map-with-glowing-dots_23-2151036322.jpg" class="w-full h-full object-cover opacity-30 grayscale contrast-150 scale-110" alt="Tactical Radar Map">
                  
-                 <!-- Pulsing coordinate points -->
-                 <div class="absolute top-1/4 left-1/3 group/point">
-                   <div class="w-4 h-4 bg-cyan-400 rounded-full animate-ping opacity-75"></div>
-                   <div class="absolute inset-0 w-4 h-4 bg-cyan-400 rounded-full"></div>
-                   <div class="absolute top-6 left-1/2 -translate-x-1/2 w-32 bg-navy-900/90 backdrop-blur-md border border-cyan-400/30 p-2 rounded-lg opacity-0 group-hover/point:opacity-100 transition-opacity">
-                     <p class="text-[9px] font-bold text-white mb-1">Misi: Evakuasi Jaring</p>
-                     <p class="text-[8px] text-cyan-400">Status: Selesai (1.2 Ton)</p>
-                   </div>
+                 <!-- Radar Pulse Effect -->
+                 <div class="absolute inset-0 pointer-events-none z-10">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-cyan-400/10 rounded-full animate-ping" style="animation-duration: 4s"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-cyan-400/5 rounded-full"></div>
                  </div>
 
-                 <div class="absolute bottom-1/3 right-1/4 group/point">
-                   <div class="w-4 h-4 bg-gold-400 rounded-full animate-ping opacity-75"></div>
-                   <div class="absolute inset-0 w-4 h-4 bg-gold-400 rounded-full"></div>
-                   <div class="absolute top-6 left-1/2 -translate-x-1/2 w-32 bg-navy-900/90 backdrop-blur-md border border-gold-400/30 p-2 rounded-lg opacity-0 group-hover/point:opacity-100 transition-opacity">
-                     <p class="text-[9px] font-bold text-white mb-1">Misi: Patroli Sonar</p>
-                     <p class="text-[8px] text-gold-400">Status: Berlangsung...</p>
-                   </div>
+                 <!-- Minimalist Terminal Log -->
+                 <div class="absolute top-4 left-4 w-40 sm:w-72 h-28 sm:h-36 bg-navy-950/90 border border-white/20 rounded-lg p-3 font-mono text-[8px] sm:text-[9px] text-white overflow-hidden pointer-events-none terminal-scanline shadow-2xl z-20">
+                    <div class="text-cyan-400 font-bold border-b border-white/10 pb-1 mb-1">LOG OPERASIONAL</div>
+                    <div id="mission-terminal" class="flex flex-col gap-1 sm:gap-1.5 transition-all duration-300">
+                      <div class="text-white/40">> Inisialisasi Terminal...</div>
+                    </div>
                  </div>
 
-                 <!-- Floating Info Overlay -->
-                 <div class="absolute bottom-6 left-6 right-6 p-4 bg-navy-900/80 backdrop-blur-md border border-white/10 rounded-2xl">
-                   <div class="grid grid-cols-3 gap-4 text-center">
-                     <div>
-                       <p class="text-[10px] text-slate-500 uppercase">Kedalaman</p>
-                       <p class="font-mono text-sm font-bold text-white">-45.2m</p>
-                     </div>
-                     <div>
-                       <p class="text-[10px] text-slate-500 uppercase">Suhu Air</p>
-                       <p class="font-mono text-sm font-bold text-white">26.8°C</p>
-                     </div>
-                     <div>
-                       <p class="text-[10px] text-slate-500 uppercase">Kandungan O2</p>
-                       <p class="font-mono text-sm font-bold text-cyan-400">Optimal</p>
-                     </div>
-                   </div>
+                 <!-- Minimalist Target Intelligence -->
+                 <div id="mission-intel" class="absolute top-[220px] sm:top-4 right-4 left-4 sm:left-auto w-auto sm:w-80 bg-navy-950 border-2 border-cyan-400 rounded-xl p-4 sm:p-5 font-sans text-[10px] text-white opacity-0 transition-all duration-500 transform translate-y-10 sm:translate-y-0 sm:translate-x-10 z-20 shadow-[0_0_30px_rgba(34,211,238,0.2)]">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/20 pb-2">
+                        <span class="font-mono text-cyan-400 font-black uppercase tracking-widest text-[11px]">TARGET ANALYSIS</span>
+                        <i class="fa-solid fa-crosshairs text-cyan-400 animate-spin-slow"></i>
+                    </div>
+                    <div class="grid grid-cols-1 gap-3.5">
+                        <div class="flex justify-between items-center bg-white/5 p-2 rounded border border-white/10">
+                            <span class="text-slate-400 uppercase text-[8px] font-black tracking-widest">Lokasi</span>
+                            <span id="intel-loc" class="text-white font-bold text-right">---</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white/5 p-2 rounded border border-white/10">
+                            <span class="text-slate-400 uppercase text-[8px] font-black tracking-widest">Ancaman</span>
+                            <span id="intel-type" class="text-white font-bold text-right">---</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white/5 p-2 rounded border border-white/10">
+                            <span class="text-slate-400 uppercase text-[8px] font-black tracking-widest">Status</span>
+                            <span id="intel-status" class="text-cyan-400 font-black text-right">---</span>
+                        </div>
+                        <div class="bg-white/5 p-2 rounded border border-white/10">
+                            <span class="text-slate-400 uppercase text-[8px] font-black tracking-widest block mb-1">Dampak Ekosistem</span>
+                            <p id="intel-impact" class="text-white/90 leading-relaxed italic">---</p>
+                        </div>
+                    </div>
+                    <button onclick="openActionModal('Dashboard Mission Response', 'Respon taktis diperlukan untuk koordinat ini.')"
+                            class="w-full mt-5 py-3 bg-cyan-400 hover:bg-white text-navy-950 font-black uppercase tracking-tighter rounded-lg transition-all text-[11px] shadow-[0_0_15px_rgba(34,211,238,0.4)]">
+                        EKSEKUSI RESPON LAPANGAN
+                    </button>
+                 </div>
+
+                 <!-- Coordinate Point Styling -->
+                 <style>
+                    .dash-point {
+                        position: absolute;
+                        z-index: 10;
+                        transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+                    }
+                    .dash-point-inner {
+                        width: 12px;
+                        height: 12px;
+                        border: 2px solid white;
+                        border-radius: 50%;
+                        box-shadow: 0 0 15px rgba(255,255,255,0.5);
+                    }
+                 </style>
+
+                 <!-- Dashboard Stats Bar -->
+                 <div class="absolute bottom-4 left-4 right-4 p-4 bg-navy-950 border border-white/20 rounded-xl flex items-center justify-around shadow-2xl z-20">
+                    <div class="flex flex-col items-center">
+                        <span class="text-[8px] text-slate-500 font-black uppercase tracking-[0.2em] mb-1">Depth_Sensor</span>
+                        <span id="live-depth" class="font-mono text-sm sm:text-base font-bold text-white">-45.2m</span>
+                    </div>
+                    <div class="w-px h-8 bg-white/10"></div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-[8px] text-slate-500 font-black uppercase tracking-[0.2em] mb-1">Temp_Monitor</span>
+                        <span id="live-temp" class="font-mono text-sm sm:text-base font-bold text-white">26.8°C</span>
+                    </div>
+                    <div class="w-px h-8 bg-white/10"></div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-[8px] text-slate-500 font-black uppercase tracking-[0.2em] mb-1">O2_Saturation</span>
+                        <span id="live-o2" class="font-mono text-sm sm:text-base font-bold text-cyan-400">NOMINAL</span>
+                    </div>
                  </div>
                </div>
              </div>
@@ -1013,13 +1089,12 @@
      <h3 id="modalActionTitle" class="font-serif text-2xl font-bold text-white mb-4">Aksi Komunitas</h3>
      <p id="modalActionDesc" class="text-slate-400 text-xs leading-relaxed mb-6">Penjelasan interaksi pendaftaran simulasi aksi di lapangan.</p>
      
-     <div class="space-y-4">
-       <input id="actionName" type="text" placeholder="Nama Lengkap" class="w-full bg-navy-950 border border-white/5 focus:border-cyan-400/40 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-600 outline-none transition-all">
-       <input id="actionContact" type="email" placeholder="Alamat Surel / Nomor WhatsApp" class="w-full bg-navy-950 border border-white/5 focus:border-cyan-400/40 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-600 outline-none transition-all">
-       <button onclick="submitActionData()" class="w-full py-3.5 bg-cyan-400 hover:bg-cyan-500 text-navy-950 font-bold text-xs tracking-wider uppercase rounded-xl transition-all">
-         Kirim Permintaan Aksi
-       </button>
+     <div id="actionFormContainer" class="space-y-4">
+       <!-- Dynamic fields will be injected here -->
      </div>
+     <button onclick="submitActionData()" class="w-full mt-4 py-3.5 bg-cyan-400 hover:bg-cyan-500 text-navy-950 font-bold text-xs tracking-wider uppercase rounded-xl transition-all">
+       Kirim Permintaan Aksi
+     </button>
    </div>
  </div>
 
@@ -1039,7 +1114,18 @@
 
  function toggleMobileMenu() {
    const menu = document.getElementById('mobileMenu');
-   menu.classList.toggle('hidden');
+   const btn = document.getElementById('mobileMenuBtn');
+   const isOpen = btn.classList.contains('active');
+
+   if (!isOpen) {
+     btn.classList.add('active');
+     menu.classList.remove('opacity-0', 'pointer-events-none', 'scale-110');
+     document.body.style.overflow = 'hidden';
+   } else {
+     btn.classList.remove('active');
+     menu.classList.add('opacity-0', 'pointer-events-none', 'scale-110');
+     document.body.style.overflow = 'auto';
+   }
  }
 
  function updateDonationDOM() {
@@ -1197,8 +1283,61 @@
 
  function openActionModal(title, desc) {
    const modal = document.getElementById('actionModal');
+   const container = document.getElementById('actionFormContainer');
    document.getElementById('modalActionTitle').innerText = title;
    document.getElementById('modalActionDesc').innerText = desc;
+
+   // Reset and build dynamic form
+   container.innerHTML = '';
+
+   const commonFields = [
+     { id: 'actionName', type: 'text', placeholder: 'Nama Lengkap / Instansi' },
+     { id: 'actionContact', type: 'text', placeholder: 'Email / WhatsApp' }
+   ];
+
+   let extraFields = [];
+   if (title.includes('School')) {
+     extraFields = [
+       { id: 'schoolName', type: 'text', placeholder: 'Nama Sekolah/Universitas' },
+       { id: 'participantCount', type: 'number', placeholder: 'Estimasi Jumlah Peserta' }
+     ];
+   } else if (title.includes('S.O.S')) {
+     extraFields = [
+       { id: 'sosCoords', type: 'text', placeholder: 'Koordinat GPS (Opsional)' },
+       { id: 'sosDesc', type: 'text', placeholder: 'Deskripsi Temuan (Jaring/Limbah)' }
+     ];
+   } else if (title.includes('Relawan')) {
+     extraFields = [
+       { id: 'volunteerCity', type: 'text', placeholder: 'Domisili (Kota)' },
+       { id: 'volunteerSkills', type: 'text', placeholder: 'Keahlian Khusus (jika ada)' }
+     ];
+   } else if (title.includes('Korporasi')) {
+     extraFields = [
+       { id: 'companyName', type: 'text', placeholder: 'Nama Perusahaan' },
+       { id: 'partnershipType', type: 'text', placeholder: 'Bidang Industri' }
+     ];
+   } else if (title.includes('Penyelam')) {
+     extraFields = [
+       { id: 'diverLicense', type: 'text', placeholder: 'Level Sertifikasi (Rescue/DM/Inst)' },
+       { id: 'diverLog', type: 'number', placeholder: 'Jumlah Log Dive' }
+     ];
+   } else if (title.includes('Response')) {
+     extraFields = [
+       { id: 'vesselId', type: 'text', placeholder: 'ID Armada / Vessel ID' },
+       { id: 'commanderName', type: 'text', placeholder: 'Nama Komandan Misi' },
+       { id: 'etaTime', type: 'text', placeholder: 'Estimasi Waktu Tiba (ETA)' }
+     ];
+   }
+
+   [...commonFields, ...extraFields].forEach(field => {
+     const input = document.createElement('input');
+     input.id = field.id;
+     input.type = field.type;
+     input.placeholder = field.placeholder;
+     input.className = "w-full bg-navy-950 border border-white/5 focus:border-cyan-400/40 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-600 outline-none transition-all";
+     container.appendChild(input);
+   });
+
    modal.classList.remove('hidden');
    setTimeout(() => {
      modal.classList.remove('opacity-0');
@@ -1215,9 +1354,54 @@
    }, 300);
  }
 
+ let currentActionContext = '';
+
  function submitActionData() {
+   const title = document.getElementById('modalActionTitle').innerText;
+   const container = document.getElementById('actionFormContainer');
+   const inputs = container.querySelectorAll('input');
+   let isValid = true;
+
+   inputs.forEach(input => {
+     if (!input.value.trim()) {
+       isValid = false;
+       input.classList.add('border-red-500');
+       input.classList.remove('border-white/5');
+     } else {
+       input.classList.remove('border-red-500');
+       input.classList.add('border-white/5');
+     }
+   });
+
+   if (!isValid) {
+     showToast("Data Tidak Lengkap", "Harap isi semua field sebelum mengirimkan data.");
+     return;
+   }
+
    closeActionModal();
-   showToast("Aksi Berhasil Dikirim", "Pihak penyelaras lapangan VML segera menghubungi Anda!");
+
+   if (title.includes('Response')) {
+     const intelStatus = document.getElementById('intel-status');
+     const originalStatus = intelStatus.innerText;
+     const originalColor = intelStatus.className;
+
+     intelStatus.innerText = "SEDANG DIEKSEKUSI...";
+     intelStatus.className = "text-gold-400 font-black text-right animate-pulse";
+
+     showToast("Misi Dimulai", "Tim Respon Lapangan telah dikerahkan ke koordinat target.");
+
+     setTimeout(() => {
+       intelStatus.innerText = "OPERASI SUKSES";
+       intelStatus.className = "text-emerald-400 font-black text-right";
+
+       setTimeout(() => {
+         intelStatus.innerText = originalStatus;
+         intelStatus.className = originalColor;
+       }, 5000);
+     }, 8000);
+   } else {
+     showToast("Aksi Berhasil Dikirim", "Pihak penyelaras lapangan VML segera menghubungi Anda!");
+   }
  }
 
  function showToast(title, message) {
@@ -1341,6 +1525,163 @@
    document.querySelectorAll('.reveal').forEach(el => {
      revealObserver.observe(el);
    });
+
+   // LIVE MISSION LOG FLAGSHIP FEATURE
+   const terminal = document.getElementById('mission-terminal');
+   const missionMap = document.getElementById('mission-map');
+   const depthEl = document.getElementById('live-depth');
+   const tempEl = document.getElementById('live-temp');
+   const o2El = document.getElementById('live-o2');
+   const intelPanel = document.getElementById('mission-intel');
+   const intelLoc = document.getElementById('intel-loc');
+   const intelType = document.getElementById('intel-type');
+   const intelStatus = document.getElementById('intel-status');
+   const intelImpact = document.getElementById('intel-impact');
+
+   const missionEvents = [
+     { log: "Scanning Sector 7-Alpha...", delay: 2000 },
+     { log: "Satellite link: SECURED", delay: 1500 },
+     { log: "DETECTION: High-density polymer", delay: 2000,
+       triggerPoint: {
+         x: '60%', y: '40%', label: 'Polimer #A9', color: 'bg-emerald-400',
+         details: {
+           loc: "Selat Sunda (Sektor 7-Alpha)",
+           type: "Limbah Polimer / Mikroplastik",
+           status: "Monitoring Aktif",
+           impact: "Kontaminasi Rantai Makanan"
+         }
+       }
+     },
+     { log: "Analyzing spectral signature...", delay: 2500 },
+     { log: "ROV Scout-1: DEPLOYED", delay: 1500 },
+     { log: "Underwater visibility: 12m", delay: 3000 },
+     { log: "ALERT: Ghost Net detected", delay: 2000,
+       triggerPoint: {
+         x: '35%', y: '65%', label: 'Jaring Hantu #12', color: 'bg-amber-500',
+         details: {
+           loc: "Kepulauan Seribu (Zonasi Inti)",
+           type: "Ghost Net (Jaring Hantu)",
+           status: "Butuh Evakuasi Segera",
+           impact: "Ancaman Penyu & Mamalia Laut"
+         }
+       }
+     },
+     { log: "Initiating retrieval sequence...", delay: 4000 },
+     { log: "Target locked at 42m depth", delay: 2000 },
+     { log: "COLLECTED: 45kg Synthetic Fiber", delay: 3000 },
+     { log: "Scanning for thermal anomalies...", delay: 3000 },
+     { log: "DETECTION: Thermal vent +2.4°C", delay: 2000,
+       triggerPoint: {
+         x: '75%', y: '25%', label: 'Vent Termal', color: 'bg-red-500',
+         details: {
+           loc: "Laut Banda (Palung Dalam)",
+           type: "Anomali Panas Geothermal",
+           status: "Observasi Ilmiah",
+           impact: "Pergeseran Habitat Benthos"
+         }
+       }
+     },
+     { log: "Syncing log to blockchain...", delay: 2500 },
+     { log: "Status: ALL SYSTEMS GREEN", delay: 2000 }
+   ];
+
+   function addLogLine(text) {
+     const line = document.createElement('div');
+     line.innerHTML = `<span class="text-cyan-400/50">></span> ${text}`;
+     line.className = 'opacity-0 transition-opacity duration-500 text-white/80';
+     terminal.appendChild(line);
+
+     while (terminal.children.length > 8) {
+       terminal.removeChild(terminal.firstChild);
+     }
+
+     setTimeout(() => line.classList.remove('opacity-0'), 50);
+   }
+
+   function createMapPoint(x, y, label, colorClass) {
+     const point = document.createElement('div');
+     point.className = 'dash-point opacity-0 transform scale-0';
+     point.style.left = x;
+     point.style.top = y;
+
+     // Determine point color based on colorClass
+     let hex = "#22d3ee";
+     if (colorClass.includes('amber')) hex = "#fbbf24";
+     if (colorClass.includes('red')) hex = "#ef4444";
+     if (colorClass.includes('emerald')) hex = "#10b981";
+
+     point.innerHTML = `
+        <div class="w-4 h-4 rounded-full border-2 border-white animate-ping absolute opacity-50" style="background-color: ${hex}"></div>
+        <div class="dash-point-inner relative flex items-center justify-center" style="background-color: ${hex}">
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-navy-950 border border-white/30 px-1.5 py-0.5 rounded text-[7px] font-black tracking-tighter text-white shadow-xl">
+                ${label}
+            </div>
+        </div>
+     `;
+     missionMap.appendChild(point);
+
+     // Animate In
+     setTimeout(() => {
+        point.classList.remove('opacity-0', 'scale-0');
+        point.classList.add('opacity-100', 'scale-100');
+     }, 100);
+
+     // Animate Out & Remove after 10 seconds
+     setTimeout(() => {
+        point.classList.add('opacity-0', 'scale-0');
+        setTimeout(() => point.remove(), 1000);
+     }, 10000);
+   }
+
+   let eventIndex = 0;
+   let intelTimeout = null;
+
+   function runMissionCycle() {
+     const event = missionEvents[eventIndex];
+     addLogLine(event.log);
+
+     if (event.triggerPoint) {
+        createMapPoint(event.triggerPoint.x, event.triggerPoint.y, event.triggerPoint.label, event.triggerPoint.color);
+
+        // Update Intel Panel
+        if (event.triggerPoint.details) {
+            intelLoc.innerText = event.triggerPoint.details.loc;
+            intelType.innerText = event.triggerPoint.details.type;
+            intelStatus.innerText = event.triggerPoint.details.status;
+            intelImpact.innerText = event.triggerPoint.details.impact;
+
+            intelPanel.classList.remove('opacity-0', 'translate-y-10', 'sm:translate-x-10');
+            intelPanel.classList.add('opacity-100', 'translate-y-0', 'sm:translate-x-0');
+
+            // Clear previous timeout to prevent premature hiding
+            if (intelTimeout) clearTimeout(intelTimeout);
+
+            // Hide after 10s (matching map point lifecycle)
+            intelTimeout = setTimeout(() => {
+                intelPanel.classList.add('opacity-0', 'translate-y-10', 'sm:translate-x-10');
+                intelPanel.classList.remove('opacity-100', 'translate-y-0', 'sm:translate-x-0');
+            }, 10000);
+        }
+     }
+
+     eventIndex = (eventIndex + 1) % missionEvents.length;
+     setTimeout(runMissionCycle, event.delay);
+   }
+
+   function updateLiveStats() {
+     const newDepth = (45.2 + (Math.random() * 2 - 1)).toFixed(1);
+     depthEl.innerText = `-${newDepth}m`;
+
+     const newTemp = (26.8 + (Math.random() * 0.4 - 0.2)).toFixed(1);
+     tempEl.innerText = `${newTemp}°C`;
+
+     const o2States = ["NOMINAL", "STABLE", "OPTIMAL"];
+     o2El.innerText = o2States[Math.floor(Math.random() * o2States.length)];
+   }
+
+   // Start cycles
+   runMissionCycle();
+   setInterval(updateLiveStats, 2000);
  };
  </script>
 </body>
