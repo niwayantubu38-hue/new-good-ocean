@@ -313,6 +313,39 @@
                     </div>
                  </div>
 
+                 <!-- Mission Intelligence Overlay (New) -->
+                 <div id="mission-intel" class="absolute top-4 right-4 w-48 sm:w-72 bg-navy-900/80 backdrop-blur-md border border-cyan-400/20 rounded-xl p-4 font-sans text-[9px] sm:text-[10px] text-white opacity-0 transition-all duration-500 transform translate-x-10 z-20 shadow-2xl">
+                    <div class="flex items-center justify-between mb-3 border-b border-white/10 pb-2">
+                        <span class="font-mono text-cyan-400 font-bold uppercase tracking-widest">Target Intelligence</span>
+                        <div class="flex gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400/40"></span>
+                        </div>
+                    </div>
+                    <div class="space-y-2.5">
+                        <div class="flex flex-col">
+                            <span class="text-slate-500 uppercase text-[7px] font-bold tracking-tighter">Lokasi</span>
+                            <span id="intel-loc" class="text-white font-semibold">Mencari sinyal...</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-slate-500 uppercase text-[7px] font-bold tracking-tighter">Jenis Ancaman</span>
+                            <span id="intel-type" class="text-cyan-400 font-bold">Inisialisasi...</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-slate-500 uppercase text-[7px] font-bold tracking-tighter">Status Evakuasi</span>
+                            <span id="intel-status" class="text-slate-300 italic">Standby...</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-slate-500 uppercase text-[7px] font-bold tracking-tighter">Dampak Ekosistem</span>
+                            <p id="intel-impact" class="text-slate-400 leading-snug">Menunggu data sensor...</p>
+                        </div>
+                    </div>
+                    <button onclick="openActionModal('Relawan Mission Intel', 'Bergabunglah untuk membantu menangani ancaman yang terdeteksi di lokasi ini secara langsung.')"
+                            class="w-full mt-4 py-2 bg-cyan-400 hover:bg-cyan-500 text-navy-950 font-extrabold uppercase tracking-widest rounded-lg transition-all text-[9px]">
+                        Bantu Sekarang
+                    </button>
+                 </div>
+
                  <!-- Fixed Pulsing coordinate points -->
                  <div class="absolute top-1/4 left-1/4 group/point z-10">
                    <div class="w-3 h-3 bg-cyan-400 rounded-full animate-ping opacity-75"></div>
@@ -1377,20 +1410,55 @@
    const depthEl = document.getElementById('live-depth');
    const tempEl = document.getElementById('live-temp');
    const o2El = document.getElementById('live-o2');
+   const intelPanel = document.getElementById('mission-intel');
+   const intelLoc = document.getElementById('intel-loc');
+   const intelType = document.getElementById('intel-type');
+   const intelStatus = document.getElementById('intel-status');
+   const intelImpact = document.getElementById('intel-impact');
 
    const missionEvents = [
      { log: "Scanning Sector 7-Alpha...", delay: 2000 },
      { log: "Satellite link: SECURED", delay: 1500 },
-     { log: "DETECTION: High-density polymer", delay: 2000, triggerPoint: { x: '60%', y: '40%', label: 'Polimer #A9', color: 'bg-emerald-400' } },
+     { log: "DETECTION: High-density polymer", delay: 2000,
+       triggerPoint: {
+         x: '60%', y: '40%', label: 'Polimer #A9', color: 'bg-emerald-400',
+         details: {
+           loc: "Selat Sunda (Sektor 7-Alpha)",
+           type: "Limbah Polimer / Mikroplastik",
+           status: "Monitoring Aktif",
+           impact: "Kontaminasi Rantai Makanan"
+         }
+       }
+     },
      { log: "Analyzing spectral signature...", delay: 2500 },
      { log: "ROV Scout-1: DEPLOYED", delay: 1500 },
      { log: "Underwater visibility: 12m", delay: 3000 },
-     { log: "ALERT: Ghost Net detected", delay: 2000, triggerPoint: { x: '35%', y: '65%', label: 'Jaring Hantu #12', color: 'bg-amber-500' } },
+     { log: "ALERT: Ghost Net detected", delay: 2000,
+       triggerPoint: {
+         x: '35%', y: '65%', label: 'Jaring Hantu #12', color: 'bg-amber-500',
+         details: {
+           loc: "Kepulauan Seribu (Zonasi Inti)",
+           type: "Ghost Net (Jaring Hantu)",
+           status: "Butuh Evakuasi Segera",
+           impact: "Ancaman Penyu & Mamalia Laut"
+         }
+       }
+     },
      { log: "Initiating retrieval sequence...", delay: 4000 },
      { log: "Target locked at 42m depth", delay: 2000 },
      { log: "COLLECTED: 45kg Synthetic Fiber", delay: 3000 },
      { log: "Scanning for thermal anomalies...", delay: 3000 },
-     { log: "DETECTION: Thermal vent +2.4°C", delay: 2000, triggerPoint: { x: '75%', y: '25%', label: 'Vent Termal', color: 'bg-red-500' } },
+     { log: "DETECTION: Thermal vent +2.4°C", delay: 2000,
+       triggerPoint: {
+         x: '75%', y: '25%', label: 'Vent Termal', color: 'bg-red-500',
+         details: {
+           loc: "Laut Banda (Palung Dalam)",
+           type: "Anomali Panas Geothermal",
+           status: "Observasi Ilmiah",
+           impact: "Pergeseran Habitat Benthos"
+         }
+       }
+     },
      { log: "Syncing log to blockchain...", delay: 2500 },
      { log: "Status: ALL SYSTEMS GREEN", delay: 2000 }
    ];
@@ -1443,6 +1511,23 @@
 
      if (event.triggerPoint) {
         createMapPoint(event.triggerPoint.x, event.triggerPoint.y, event.triggerPoint.label, event.triggerPoint.color);
+
+        // Update Intel Panel
+        if (event.triggerPoint.details) {
+            intelLoc.innerText = event.triggerPoint.details.loc;
+            intelType.innerText = event.triggerPoint.details.type;
+            intelStatus.innerText = event.triggerPoint.details.status;
+            intelImpact.innerText = event.triggerPoint.details.impact;
+
+            intelPanel.classList.remove('opacity-0', 'translate-x-10');
+            intelPanel.classList.add('opacity-100', 'translate-x-0');
+
+            // Hide after 10s (matching map point lifecycle)
+            setTimeout(() => {
+                intelPanel.classList.add('opacity-0', 'translate-x-10');
+                intelPanel.classList.remove('opacity-100', 'translate-x-0');
+            }, 10000);
+        }
      }
 
      eventIndex = (eventIndex + 1) % missionEvents.length;
