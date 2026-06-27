@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Vanguard Marine Logistics (VML) | Solusi Penyelamatan Ekosistem Laut Indonesia</title>
+ 
+ <!-- Google Fonts & FontAwesome -->
+ <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght=0,600;0,700;1,400&family=JetBrains+Mono:wght=400;700&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ 
+ <!-- Tailwind CSS -->
+ <script src="https://cdn.tailwindcss.com"></script>
+ 
+ <script>
+ tailwind.config = {
+   theme: {
+     extend: {
+       colors: {
+         navy: {
+           950: '#020617',
+           900: '#0b1329',
+           800: '#111e38',
+           700: '#1e293b'
+         },
+         cyan: {
+           400: '#22d3ee',
+           500: '#06b6d4',
+         },
+         gold: {
+           400: '#fbbf24',
+           500: '#f59e0b',
+         }
+       },
+       fontFamily: {
+         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+         serif: ['"Playfair Display"', 'serif'],
+         mono: ['"JetBrains Mono"', 'monospace'],
+       }
+     }
+   }
+ }
+ </script>
+ 
+ <style>
+ /* Sembunyikan kursor standar hanya di desktop untuk pengalaman ikan kustom */
+ @media (min-width: 769px) {
+   body, a, button, input, select, textarea, [role="button"] {
+     cursor: none !important;
+   }
+ }
+
+ /* Custom scrollbar */
+ ::-webkit-scrollbar {
+   width: 8px;
+ }
+ ::-webkit-scrollbar-track {
+   background: #020617;
+ }
+ ::-webkit-scrollbar-thumb {
+   background: #1e293b;
+   border-radius: 4px;
+ }
+ ::-webkit-scrollbar-thumb:hover {
+   background: #22d3ee;
+ }
+ 
+ /* Smooth glowing effects */
+ .glow-cyan {
+   box-shadow: 0 0 30px rgba(34, 211, 238, 0.15);
+ }
+ .glow-gold {
+   box-shadow: 0 0 40px rgba(245, 158, 11, 0.4);
+ }
+ 
+ /* Celebration pulse keyframes */
+ @keyframes border-pulse {
+   0%, 100% { border-color: #22d3ee; }
+   50% { border-color: #fbbf24; }
+ }
+ .celebrate-border {
+   animation: border-pulse 2s infinite;
+ }
+ 
+ /* Custom scrollbar for modals */
+ .custom-scrollbar::-webkit-scrollbar {
+   width: 5px;
+ }
+ .custom-scrollbar::-webkit-scrollbar-track {
+   background: rgba(2, 6, 23, 0.5);
+ }
+ .custom-scrollbar::-webkit-scrollbar-thumb {
+   background: rgba(34, 211, 238, 0.3);
+   border-radius: 10px;
+ }
+ .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+   background: rgba(34, 211, 238, 0.5);
+ }
+
+ /* Animasi Gelembung Air */
+ @keyframes float-bubble {
+   0% {
+     transform: translateY(0) scale(0.6);
+     opacity: 0.8;
+   }
+   100% {
+     transform: translateY(-120px) scale(1.2);
+     opacity: 0;
+   }
+ }
+ .bubble-effect {
+   position: absolute;
+   background: rgba(34, 211, 238, 0.4);
+   border: 1px solid rgba(255, 255, 255, 0.3);
+   border-radius: 50%;
+   pointer-events: none;
+   animation: float-bubble 1.2s ease-out forwards;
+   z-index: 9999;
+ }
+
+   /* Scroll Reveal Classes */
+   .reveal {
+     opacity: 0;
+     transform: translateY(30px);
+     transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+   }
+   .reveal.active {
+     opacity: 1;
+     transform: translateY(0);
+   }
+ </style>
+</head>
+<body class="bg-navy-950 text-slate-200 overflow-x-hidden selection:bg-cyan-500 selection:text-navy-950">
+
+ <!-- KURSOR IKAN KUSTOM (Mengikuti gerakan mouse secara dinamis) -->
+ <div id="fish-cursor" class="fixed w-10 h-10 pointer-events-none z-[9999] transition-transform duration-75 ease-out -translate-x-1/2 -translate-y-1/2 hidden select-none">
+   <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full filter drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]">
+     <path d="M10 50C25 35 55 30 75 45C83 40 90 35 95 38C92 48 92 52 95 62C90 65 83 60 75 55C55 70 25 65 10 50Z" fill="#22d3ee" />
+     <path d="M10 50C5 40 2 43 0 45V55C2 57 5 60 10 50Z" fill="#06b6d4" />
+     <path d="M45 35C48 20 58 23 60 33Z" fill="#06b6d4" />
+     <circle cx="78" cy="46" r="3" fill="#020617" />
+   </svg>
+ </div>
+
+ <!-- FIXED NAVIGATION BAR WITH FIXED MOBILE OVERLAP -->
+ <header class="fixed top-0 left-0 w-full z-50 bg-navy-950/90 backdrop-blur-md border-b border-white/5 transition-all duration-300">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex justify-between items-center">
+     
+     <a href="#beranda" class="flex items-center gap-2 text-sm sm:text-base lg:text-xl font-extrabold tracking-wider text-white whitespace-nowrap flex-shrink-0">
+       <i class="fa-solid fa-anchor text-cyan-400"></i>
+       VML <span class="text-cyan-400 font-normal hidden sm:inline-block">VANGUARD MARINE</span>
+     </a>
+     
+     <nav class="hidden lg:flex items-center gap-6 lg:gap-8">
+       <a href="#tentang-kami" class="text-xs lg:text-sm font-semibold tracking-wide text-slate-400 hover:text-cyan-400 transition-colors">Tentang Kami</a>
+       <a href="#masalah" class="text-xs lg:text-sm font-semibold tracking-wide text-slate-400 hover:text-cyan-400 transition-colors">Ancaman Laut</a>
+       <a href="#bermain" class="text-xs lg:text-sm font-semibold tracking-wide text-slate-400 hover:text-cyan-400 transition-colors">Cara Berpartisipasi</a>
+       <a href="#pendanaan" class="text-xs lg:text-sm font-semibold tracking-wide text-slate-400 hover:text-cyan-400 transition-colors">Merchandise & Donasi</a>
+     </nav>
+     
+     <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+       <!-- RE-DESIGNED AMBIL TINDAKAN MOBILE ELEMENT: Pure absolute safety padding with no flex collision risks -->
+       <a href="#pendanaan" class="relative group overflow-hidden px-4 py-2 sm:px-6 sm:py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-gradient-to-r from-cyan-500 to-blue-500 text-navy-950 rounded-xl shadow-lg shadow-cyan-500/20 transition-all duration-300 hover:shadow-cyan-500/40 hover:scale-[1.02] active:scale-95 whitespace-nowrap">
+         <span class="relative z-10 flex items-center gap-1">
+           <i class="fa-solid fa-circle-play text-[9px] opacity-80 group-hover:rotate-12 transition-transform"></i>
+           <span>Ambil Tindakan</span>
+         </span>
+       </a>
+       
+       <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 text-white hover:bg-white/10 transition-all focus:outline-none" aria-label="Menu">
+         <i class="fa-solid fa-bars text-sm"></i>
+       </button>
+     </div>
+   </div>
+   
+   <div id="mobileMenu" class="hidden lg:hidden border-t border-white/5 bg-navy-950/95 backdrop-blur-lg px-6 py-4 space-y-4 transition-all duration-300">
+     <a href="#tentang-kami" onclick="toggleMobileMenu()" class="block text-sm font-semibold text-slate-300 hover:text-cyan-400 transition-colors">Tentang Kami</a>
+     <a href="#masalah" onclick="toggleMobileMenu()" class="block text-sm font-semibold text-slate-300 hover:text-cyan-400 transition-colors">Ancaman Laut</a>
+     <a href="#bermain" onclick="toggleMobileMenu()" class="block text-sm font-semibold text-slate-300 hover:text-cyan-400 transition-colors">Cara Berpartisipasi</a>
+     <a href="#pendanaan" onclick="toggleMobileMenu()" class="block text-sm font-semibold text-slate-300 hover:text-cyan-400 transition-colors">Merchandise & Donasi</a>
+   </div>
+ </header>
+
+ <!-- HERO SECTION -->
+ <section id="beranda" class="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
+   <div class="absolute inset-0 z-0">
+     <div class="absolute inset-0 bg-gradient-to-b from-navy-950/40 via-navy-950/70 to-navy-950 z-10"></div>
+     <img src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?q=80&w=1920" 
+          class="w-full h-full object-cover scale-105 filter brightness-50 contrast-125" 
+          alt="Deep Ocean Abyss">
+   </div>
+
+   <div class="relative z-20 max-w-5xl mx-auto px-6 text-center mt-12">
+     <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-400/10 text-cyan-400 text-[10px] sm:text-xs font-extrabold tracking-widest uppercase mb-6 border border-cyan-400/20 max-w-full text-center">
+       <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping flex-shrink-0"></span> 
+       Operasi Pembersihan Logistik Terintegrasi Nusantara
+     </span>
+     <h1 class="font-serif text-3xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-8">
+       Navigasi Logistik <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 italic">Penyelamat Lautan.</span>
+     </h1>
+     <p class="text-slate-400 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed mb-12">
+       Vanguard Marine Logistics (VML) memimpin aksi taktis di perairan bebas Indonesia. Kami memobilisasi kapal evakuasi, memetakan koordinat kritis, dan mendaur ulang limbah laut secara mandiri dan transparan.
+     </p>
+     <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+       <a href="#masalah" class="w-full sm:w-auto px-8 py-4 bg-cyan-400 hover:bg-cyan-500 text-navy-950 font-bold text-sm tracking-wider uppercase rounded-xl transition-all shadow-lg shadow-cyan-400/20 text-center">
+         Eksplorasi Ancaman
+       </a>
+       <a href="#bermain" class="w-full sm:w-auto px-8 py-4 bg-navy-900 hover:bg-navy-800 border border-slate-700 text-white font-bold text-sm tracking-wider uppercase rounded-xl transition-all text-center">
+         Sistem Aksi Kita
+       </a>
+     </div>
+   </div>
+ </section>
+
+ <!-- ABOUT ME & HOW/WHY WE WORK -->
+ <section id="tentang-kami" class="reveal py-24 bg-navy-900/20 border-t border-white/5 relative overflow-hidden">
+   <div class="absolute top-1/4 left-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
+   <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+   <div class="max-w-7xl mx-auto px-6 relative z-10">
+     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-24">
+       <div class="lg:col-span-5 space-y-6">
+         <span class="text-cyan-400 text-xs font-extrabold tracking-widest uppercase block">// PROFIL OPERASI KAMI</span>
+         <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white leading-tight">Mengenal Vanguard Marine Logistics</h2>
+         <div class="h-1 w-20 bg-cyan-400 rounded-full"></div>
+         <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+           Vanguard Marine Logistics (VML) didirikan atas sebuah misi kritis: merevolusi peran industri kelautan dalam pelestarian alam. Berawal sebagai perusahaan penyedia transportasi dan rantai pasok maritim komersial di Nusantara, kami menyaksikan langsung kengerian kerusakan bawah laut akibat sampah industri. 
+         </p>
+         <p class="text-slate-400 text-sm leading-relaxed">
+           Hari ini, kami mendedikasikan armada kapal penyelamat logistik kami, peralatan sensor sonar canggih, serta jaringan komunitas nelayan lokal untuk menyapu bersih limbah polimer dan mengembalikan ekosistem laut Indonesia ke kondisi aslinya.
+         </p>
+       </div>
+       <div class="lg:col-span-7">
+         <div class="bg-navy-900 border border-white/5 p-8 rounded-[2.5rem] glow-cyan">
+           <span class="text-xs font-mono text-cyan-400 block mb-4 uppercase tracking-tighter">// Manifesto Operasional VML</span>
+           <p class="font-serif text-lg sm:text-2xl text-slate-200 italic leading-relaxed mb-6">
+             "Kami tidak sekadar membersihkan laut; kami menciptakan sirkulasi ekonomi berdaya tahan tinggi yang mendanai operasinya sendiri demi laut Nusantara yang bebas jaring maut."
+           </p>
+           <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-6 border-t border-white/5 text-center sm:text-left">
+             <div>
+               <h4 class="text-2xl sm:text-3xl font-mono font-bold text-cyan-400">12+ TON</h4>
+               <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Jaring Dievakuasi</p>
+             </div>
+             <div>
+               <h4 class="text-2xl sm:text-3xl font-mono font-bold text-cyan-400">450+</h4>
+               <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Nelayan Terbantu</p>
+             </div>
+             <div class="col-span-2 sm:col-span-1">
+               <h4 class="text-2xl sm:text-3xl font-mono font-bold text-cyan-400">100%</h4>
+               <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Donasi Tepat Sasaran</p>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+
+     <!-- INTEGRATED TRANSPARENCY SECTION -->
+     <div class="mt-32 pt-24 border-t border-white/5">
+       <div class="flex flex-col lg:flex-row gap-16 items-center">
+         <!-- Left: Live Impact Map/Log -->
+         <div class="lg:w-7/12 w-full order-2 lg:order-1">
+           <div class="relative group">
+             <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[2.5rem] blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+             <div class="relative bg-navy-900 border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl">
+               <!-- Header Map -->
+               <div class="p-6 border-b border-white/5 bg-navy-950/50 flex justify-between items-center">
+                 <div class="flex items-center gap-3">
+                   <div class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+                   <span class="font-mono text-xs text-slate-300 uppercase tracking-widest">Live Mission Log: Nusantara-1</span>
+                 </div>
+                 <span class="text-[10px] font-mono text-cyan-400">v2.4.0-Stable</span>
+               </div>
+               
+               <!-- Content: Visual representation of a mission -->
+               <div class="relative h-[400px] bg-navy-950 overflow-hidden">
+                 <img src="https://images.unsplash.com/photo-1551244072-5d12893278ab?q=80&w=1200" class="w-full h-full object-cover opacity-30 grayscale" alt="Marine Map">
+                 
+                 <!-- Pulsing coordinate points -->
+                 <div class="absolute top-1/4 left-1/3 group/point">
+                   <div class="w-4 h-4 bg-cyan-400 rounded-full animate-ping opacity-75"></div>
+                   <div class="absolute inset-0 w-4 h-4 bg-cyan-400 rounded-full"></div>
+                   <div class="absolute top-6 left-1/2 -translate-x-1/2 w-32 bg-navy-900/90 backdrop-blur-md border border-cyan-400/30 p-2 rounded-lg opacity-0 group-hover/point:opacity-100 transition-opacity">
+                     <p class="text-[9px] font-bold text-white mb-1">Misi: Evakuasi Jaring</p>
+                     <p class="text-[8px] text-cyan-400">Status: Selesai (1.2 Ton)</p>
+                   </div>
+                 </div>
+
+                 <div class="absolute bottom-1/3 right-1/4 group/point">
+                   <div class="w-4 h-4 bg-gold-400 rounded-full animate-ping opacity-75"></div>
+                   <div class="absolute inset-0 w-4 h-4 bg-gold-400 rounded-full"></div>
+                   <div class="absolute top-6 left-1/2 -translate-x-1/2 w-32 bg-navy-900/90 backdrop-blur-md border border-gold-400/30 p-2 rounded-lg opacity-0 group-hover/point:opacity-100 transition-opacity">
+                     <p class="text-[9px] font-bold text-white mb-1">Misi: Patroli Sonar</p>
+                     <p class="text-[8px] text-gold-400">Status: Berlangsung...</p>
+                   </div>
+                 </div>
+
+                 <!-- Floating Info Overlay -->
+                 <div class="absolute bottom-6 left-6 right-6 p-4 bg-navy-900/80 backdrop-blur-md border border-white/10 rounded-2xl">
+                   <div class="grid grid-cols-3 gap-4 text-center">
+                     <div>
+                       <p class="text-[10px] text-slate-500 uppercase">Kedalaman</p>
+                       <p class="font-mono text-sm font-bold text-white">-45.2m</p>
+                     </div>
+                     <div>
+                       <p class="text-[10px] text-slate-500 uppercase">Suhu Air</p>
+                       <p class="font-mono text-sm font-bold text-white">26.8°C</p>
+                     </div>
+                     <div>
+                       <p class="text-[10px] text-slate-500 uppercase">Kandungan O2</p>
+                       <p class="font-mono text-sm font-bold text-cyan-400">Optimal</p>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+
+         <!-- Right: Partners & Certs -->
+         <div class="lg:w-5/12 w-full order-1 lg:order-2 space-y-8">
+           <div>
+             <span class="text-cyan-400 text-xs font-extrabold tracking-widest uppercase block mb-4">// LEGITIMASI OPERASIONAL</span>
+             <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white leading-tight mb-6">Transparansi Tanpa Kompromi</h2>
+             <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+               VML beroperasi dengan standar audit internasional. Setiap rupiah donasi dan setiap gram limbah yang diangkat tercatat dalam sistem log blockchain maritim kami yang dapat diakses oleh publik.
+             </p>
+           </div>
+
+           <div class="space-y-6">
+             <div class="flex items-center gap-4 group">
+               <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400 text-xl group-hover:bg-cyan-400/20 group-hover:border-cyan-400/40 transition-all">
+                 <i class="fa-solid fa-shield-halved"></i>
+               </div>
+               <div>
+                 <h4 class="text-white font-bold text-sm">Sertifikasi ISO 14001:2015</h4>
+                 <p class="text-xs text-slate-500 italic">Standar Internasional Manajemen Lingkungan Maritim.</p>
+               </div>
+             </div>
+
+             <div class="flex items-center gap-4 group">
+               <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400 text-xl group-hover:bg-cyan-400/20 group-hover:border-cyan-400/40 transition-all">
+                 <i class="fa-solid fa-handshake"></i>
+               </div>
+               <div>
+                 <h4 class="text-white font-bold text-sm">Mitra Strategis KKP RI</h4>
+                 <p class="text-xs text-slate-500 italic">Kolaborasi pemetaan zona kritis jaring hantu nasional.</p>
+               </div>
+             </div>
+
+             <div class="flex items-center gap-4 group">
+               <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400 text-xl group-hover:bg-cyan-400/20 group-hover:border-cyan-400/40 transition-all">
+                 <i class="fa-solid fa-chart-line"></i>
+               </div>
+               <div>
+                 <h4 class="text-white font-bold text-sm">Audit Dampak Independen</h4>
+                 <p class="text-xs text-slate-500 italic">Laporan dampak bulanan oleh firma audit lingkungan pihak ketiga.</p>
+               </div>
+             </div>
+           </div>
+
+           <div class="pt-8 border-t border-white/5">
+             <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-6">Mitra & Aliansi Kami:</p>
+             <div class="grid grid-cols-3 gap-8 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
+               <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-water text-2xl text-white"></i>
+                  <span class="text-[10px] font-bold text-white">KKP RI</span>
+               </div>
+               <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-fish-fins text-2xl text-white"></i>
+                  <span class="text-[10px] font-bold text-white">WWF ID</span>
+               </div>
+               <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-leaf text-2xl text-white"></i>
+                  <span class="text-[10px] font-bold text-white">GreenWave</span>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+
+     <div class="border-t border-white/5 pt-24">
+       <div class="text-center mb-16">
+         <span class="text-cyan-400 text-xs font-mono uppercase tracking-widest">// ALUR KERJA ETIS</span>
+         <h3 class="font-serif text-2xl sm:text-4xl font-bold text-white mt-2">Bagaimana & Mengapa Kami Bekerja</h3>
+       </div>
+
+       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+         <div class="bg-navy-900/50 border border-white/5 p-8 rounded-3xl flex flex-row items-start gap-5">
+           <div class="w-12 h-12 flex-shrink-0 rounded-2xl bg-cyan-400/15 flex items-center justify-center font-mono font-bold text-cyan-400 border border-cyan-400/20">
+             01
+           </div>
+           <div>
+             <h4 class="font-serif text-xl font-bold text-white mb-2">Deteksi Berbasis Sonar</h4>
+             <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+               Memanfaatkan teknologi sensor kedalaman sirkuler milik kapal logistik kami untuk mendeteksi tumpukan polimer sintetis di atas terumbu karang sebelum menjadi maut bagi megafauna.
+             </p>
+           </div>
+         </div>
+
+         <div class="bg-navy-900/50 border border-white/5 p-8 rounded-3xl flex flex-row items-start gap-5">
+           <div class="w-12 h-12 flex-shrink-0 rounded-2xl bg-cyan-400/15 flex items-center justify-center font-mono font-bold text-cyan-400 border border-cyan-400/20">
+             02
+           </div>
+           <div>
+             <h4 class="font-serif text-xl font-bold text-white mb-2">Evakuasi Taktis Cepat</h4>
+             <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+               Menurunkan penyelam taktis bersertifikasi dan tim respon laut VML untuk memotong, mengangkat, serta mengevakuasi jaring mati secara aman tanpa merusak koloni koral.
+             </p>
+           </div>
+         </div>
+
+         <div class="bg-navy-900/50 border border-white/5 p-8 rounded-3xl flex flex-row items-start gap-5">
+           <div class="w-12 h-12 flex-shrink-0 rounded-2xl bg-cyan-400/15 flex items-center justify-center font-mono font-bold text-cyan-400 border border-cyan-400/20">
+             03
+           </div>
+           <div>
+             <h4 class="font-serif text-xl font-bold text-white mb-2">Sirkulasi Daur Ulang</h4>
+             <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+               Seluruh jaring yang diangkat dicuci, diurai, dan dilelehkan kembali menjadi produk bernilai tinggi guna menyuplai dana operasional pembersihan berikutnya secara berkelanjutan.
+             </p>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+
+ <!-- SECTION 1: ANCAMAN LAUT -->
+ <section id="masalah" class="reveal py-24 max-w-7xl mx-auto px-6 relative">
+   <div class="text-center mb-20">
+     <span class="text-cyan-400 text-xs font-extrabold tracking-widest uppercase">Pilar 1: Kesadaran Terbimbing</span>
+     <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2 mb-4">Tragedi yang Mengintai Kedalaman</h2>
+     <p class="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+       Bukan sekadar statistik, ini adalah krisis nyata yang mencekik kehidupan di bawah ombak perairan kita.
+     </p>
+   </div>
+
+   <div class="space-y-24">
+     <!-- Krisis 1: Ghost Net -->
+     <div class="flex flex-col lg:flex-row items-center gap-12 group">
+       <div class="lg:w-1/2 relative overflow-hidden rounded-3xl aspect-[4/3] glow-cyan">
+         <img src="https://media.istockphoto.com/id/1489378220/photo/discarded-fishing-net-on-a-coral-reef.webp?b=1&s=612x612&w=0&k=20&c=8TUyHIQv5Ulu129iaz1DCliKvknY9oGndGTB3fmqpzQ=" 
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+              alt="Ghost Net Impact">
+         <div class="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-transparent"></div>
+       </div>
+       <div class="lg:w-1/2">
+         <div class="w-14 h-14 rounded-2xl bg-cyan-400/10 flex items-center justify-center mb-6">
+           <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h18M3 9h18M3 15h18M3 21h18M3 3v18M9 3v18M15 3v18M21 3v18M3 3l18 18M3 21L21 3"></path>
+           </svg>
+         </div>
+         <h3 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">Pembunuh Tanpa Wujud: Ghost Nets</h3>
+         <p class="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
+           Jaring nilon sintetis yang hilang atau dibuang ini menjadi perangkap abadi. Di Indonesia, laporan jaring hantu yang mencekik terumbu karang di <span class="text-cyan-400">Raja Ampat dan Wakatobi</span> terus meningkat, merusak jantung biodiversitas kita selama berabad-abad.
+         </p>
+         <div class="p-4 bg-navy-900 border border-white/5 rounded-2xl mb-8">
+           <span class="text-xs font-mono text-cyan-400 block mb-1 uppercase tracking-tighter">// Analisis Teknis VML</span>
+           <p class="text-xs text-slate-300 italic">"Sifat polimer nilon yang tidak terurai secara biologis memungkinkannya menjerat biota laut secara pasif hingga 600 tahun."</p>
+         </div>
+         <button onclick="openDeepDive('ghostnets')" class="px-6 py-3 border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-navy-950 font-bold text-xs uppercase tracking-widest rounded-xl transition-all">
+           Baca Selengkapnya
+         </button>
+       </div>
+     </div>
+
+     <!-- Krisis 2: Polusi Suara -->
+     <div class="flex flex-col lg:flex-row-reverse items-center gap-12 group">
+       <div class="lg:w-1/2 relative overflow-hidden rounded-3xl aspect-[4/3] glow-cyan">
+         <img src="https://therevelator.org/wp-content/uploads/2019/06/marine-noise-noaa.png" 
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+              alt="Noise Pollution">
+         <div class="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-transparent"></div>
+       </div>
+       <div class="lg:w-1/2">
+         <div class="w-14 h-14 rounded-2xl bg-cyan-400/10 flex items-center justify-center text-cyan-400 text-2xl mb-6">
+           <i class="fa-solid fa-wave-square"></i>
+         </div>
+         <h3 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">Jeritan Sunyi di Bawah Laut</h3>
+         <p class="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
+           Lautan Indonesia adalah jalur kargo tersibuk dunia. Polusi suara dari mesin kapal industri dan survei seismik membingungkan sistem sonar paus dan lumba-lumba. Tragedi terdamparnya 9 paus sperma di <span class="text-cyan-400">Aceh (2017)</span> menjadi pengingat pedih akan gangguan navigasi yang mematikan ini.
+         </p>
+         <div class="p-4 bg-navy-900 border border-white/5 rounded-2xl mb-8">
+           <span class="text-xs font-mono text-cyan-400 block mb-1 uppercase tracking-tighter">// Analisis Teknis VML</span>
+           <p class="text-xs text-slate-300 italic">"Kebisingan frekuensi rendah mengganggu vokalisasi mamalia laut, menyebabkan stres kronis dan kegagalan sistem navigasi sonar."</p>
+         </div>
+         <button onclick="openDeepDive('noise')" class="px-6 py-3 border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-navy-950 font-bold text-xs uppercase tracking-widest rounded-xl transition-all">
+           Baca Selengkapnya
+         </button>
+       </div>
+     </div>
+
+     <!-- Krisis 3: Pengasaman Laut -->
+     <div class="flex flex-col lg:flex-row items-center gap-12 group">
+       <div class="lg:w-1/2 relative overflow-hidden rounded-3xl aspect-[4/3] glow-cyan">
+         <img src="https://asset.kompas.com/crops/uv6myjY2sJKwywkuVhFcRrZbSNE=/0x0:845x563/750x500/data/photo/2022/07/18/62d4d1d8ddadb.jpg" 
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+              alt="Ocean Acidification">
+         <div class="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-transparent"></div>
+       </div>
+       <div class="lg:w-1/2">
+         <div class="w-14 h-14 rounded-2xl bg-cyan-400/10 flex items-center justify-center text-cyan-400 text-2xl mb-6">
+           <i class="fa-solid fa-flask-vial"></i>
+         </div>
+         <h3 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">Pengasaman: Kematian Kimiawi</h3>
+         <p class="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
+           Pelepasan CO2 berlebih membuat laut kita semakin asam. Riset terbaru menunjukkan pengasaman di <span class="text-cyan-400">Paparan Sunda</span> terjadi dua kali lebih cepat dari rata-rata global. Ini melarutkan cangkang makhluk laut dan memicu keruntuhan ekosistem terumbu karang yang menjadi tumpuan pangan kita.
+         </p>
+         <div class="p-4 bg-navy-900 border border-white/5 rounded-2xl mb-8">
+           <span class="text-xs font-mono text-cyan-400 block mb-1 uppercase tracking-tighter">// Analisis Teknis VML</span>
+           <p class="text-xs text-slate-300 italic">"Penurunan pH air laut mengurangi ketersediaan ion karbonat, menghambat proses kalsifikasi pada karang dan moluska."</p>
+         </div>
+         <button onclick="openDeepDive('acid')" class="px-6 py-3 border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-navy-950 font-bold text-xs uppercase tracking-widest rounded-xl transition-all">
+           Baca Selengkapnya
+         </button>
+       </div>
+     </div>
+
+     <!-- Krisis 4: Invasi Mikroplastik -->
+     <div class="flex flex-col lg:flex-row-reverse items-center gap-12 group">
+       <div class="lg:w-1/2 relative overflow-hidden rounded-3xl aspect-[4/3] glow-cyan">
+         <img src="https://img.magnific.com/foto-premium/botol-plastik-dan-benda-benda-lain-mengambang-di-air_81048-47393.jpg" 
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+              alt="Microplastics Floating">
+         <div class="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-transparent"></div>
+       </div>
+       <div class="lg:w-1/2">
+         <div class="w-14 h-14 rounded-2xl bg-cyan-400/10 flex items-center justify-center text-cyan-400 text-2xl mb-6">
+           <i class="fa-solid fa-virus"></i>
+         </div>
+         <h3 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">Invasi Mikroplastik Nusantara</h3>
+         <p class="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
+           Limbah makro yang terfragmentasi oleh mekanis ombak dan matahari terurai menjadi butiran halus mikroplastik beracun. Akibatnya, rantai makanan dari plankton hingga ikan tuna konsumsi di <span class="text-cyan-400">Selat Sunda dan Selat Bali</span> kini tercemar senyawa pemicu mutasi biologis.
+         </p>
+         <div class="p-4 bg-navy-900 border border-white/5 rounded-2xl mb-8">
+           <span class="text-xs font-mono text-cyan-400 block mb-1 uppercase tracking-tighter">// Analisis Teknis VML</span>
+           <p class="text-xs text-slate-300 italic">"Fragmentasi polimer melepaskan senyawa aditif berbahaya seperti Phthalates dan Bisphenol A langsung ke jaringan lipid biota air."</p>
+         </div>
+         <button onclick="openDeepDive('microplastics')" class="px-6 py-3 border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-navy-950 font-bold text-xs uppercase tracking-widest rounded-xl transition-all">
+           Baca Selengkapnya
+         </button>
+       </div>
+     </div>
+
+     <!-- Krisis 5: Destructive Fishing -->
+     <div class="flex flex-col lg:flex-row items-center gap-12 group">
+       <div class="lg:w-1/2 relative overflow-hidden rounded-3xl aspect-[4/3] glow-cyan">
+         <img src="https://ocean.si.edu/sites/default/files/styles/full_width_large/public/2023-11/Bycatch_Blast_Fishing_BWhite_SangeanMenjang_Clsp_088.jpg.webp?itok=3gmZwKYX" 
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+              alt="Destructive Blast Fishing Impact">
+         <div class="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-transparent"></div>
+       </div>
+       <div class="lg:w-1/2">
+         <div class="w-14 h-14 rounded-2xl bg-cyan-400/10 flex items-center justify-center text-cyan-400 text-2xl mb-6">
+           <i class="fa-solid fa-burst"></i>
+         </div>
+         <h3 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">Destructive Fishing: Bom & Racun</h3>
+         <p class="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
+           Penggunaan bom peledak potasium rakitan serta penyemprotan bahan kimia sianida beracun masih marak secara ilegal demi tangkapan instan. Sisa hantaman satu ledakan kecil mampu meratakan ratusan meter koloni terumbu karang yang butuh ratusan tahun untuk tumbuh kembali.
+         </p>
+         <div class="p-4 bg-navy-900 border border-white/5 rounded-2xl mb-8">
+           <span class="text-xs font-mono text-cyan-400 block mb-1 uppercase tracking-tighter">// Analisis Teknis VML</span>
+           <p class="text-xs text-slate-300 italic">"Hantaman gelombang kejut merusak jaringan kantung renang ikan secara fatal dan membunuh polip karang hidup seketika."</p>
+         </div>
+         <button onclick="openDeepDive('destructive')" class="px-6 py-3 border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-navy-950 font-bold text-xs uppercase tracking-widest rounded-xl transition-all">
+           Baca Selengkapnya
+         </button>
+       </div>
+     </div>
+   </div>
+ </section>
+
+ <!-- SECTION 2: SISTEM AKSI KITA -->
+ <section id="bermain" class="reveal py-24 bg-navy-900/40 border-y border-white/5">
+   <div class="max-w-7xl mx-auto px-6">
+     <div class="text-center mb-16">
+       <span class="text-cyan-400 text-xs font-extrabold tracking-widest uppercase">Pilar 2: Integrasi Komunitas</span>
+       <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2 mb-4">Sistem Aksi Kita</h2>
+       <p class="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+         Website ini bukan sekadar pajangan data. Ini adalah modul interaktif di mana kamu, sekolahmu, atau nelayan lokal dapat mengambil peran operasional yang nyata bersama VML.
+       </p>
+     </div>
+
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+       <!-- Peran 1 -->
+       <div class="bg-navy-950 border border-white/5 p-8 rounded-3xl relative overflow-hidden flex flex-col justify-between min-h-[350px]">
+         <div>
+           <span class="font-mono text-[10px] text-cyan-400 tracking-wider">JALUR 01 / EDUKATOR</span>
+           <h3 class="font-serif text-xl sm:text-2xl font-bold text-white mt-2 mb-4">Tur Sekolah & Pesisir</h3>
+           <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-8">
+             Kami menyediakan platform pendaftaran tour sekolah gratis dan webinar edukatif secara interaktif. Para siswa diajak berinteraksi langsung dengan peneliti laut lewat simulasi visual mikroplastik.
+           </p>
+         </div>
+         <button onclick="openActionModal('School Tour Booking', 'Daftarkan institusi sekolahmu untuk mendapatkan jadwal webinar edukasi konservasi bawah laut eksklusif bersama mitra ahli kelautan kami.')" 
+                 class="w-full py-3 bg-navy-900 hover:bg-navy-800 border border-slate-700 text-white font-semibold text-xs tracking-wider uppercase rounded-xl transition-all">
+           Daftar School Tour
+         </button>
+       </div>
+
+       <!-- Peran 2 -->
+       <div class="bg-navy-950 border border-white/5 p-8 rounded-3xl relative overflow-hidden flex flex-col justify-between min-h-[350px]">
+         <div>
+           <span class="font-mono text-[10px] text-cyan-400 tracking-wider">JALUR 02 / NELAYAN & PENYELAM</span>
+           <h3 class="font-serif text-xl sm:text-2xl font-bold text-white mt-2 mb-4">Laporan Koordinat S.O.S</h3>
+           <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-8">
+             Para pelaut, nelayan tradisional, atau penyelam rekreasi dapat melaporkan titik GPS temuan jaring hantu langsung di platform kami agar armada VML bergerak melakukan evakuasi taktis lapangan.
+           </p>
+         </div>
+         <button onclick="openActionModal('Kirim Koordinat S.O.S', 'Laporkan koordinat laut yang tercemar jaring terbengkalai. Data ini langsung dipetakan ke log misi evakuasi lapangan berikutnya.')" 
+                 class="w-full py-3 bg-navy-900 hover:bg-navy-800 border border-slate-700 text-white font-semibold text-xs tracking-wider uppercase rounded-xl transition-all">
+           Laporkan Jaring
+         </button>
+       </div>
+
+       <!-- Peran 3 -->
+       <div class="bg-navy-950 border border-white/5 p-8 rounded-3xl relative overflow-hidden flex flex-col justify-between min-h-[350px]">
+         <div>
+           <span class="font-mono text-[10px] text-cyan-400 tracking-wider">JALUR 03 / RELAWAN UMUM</span>
+           <h3 class="font-serif text-xl sm:text-2xl font-bold text-white mt-2 mb-4">Relawan Kampanye Pesisir</h3>
+           <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-8">
+             Ikut serta dalam aksi fisik pembersihan pantai pesisir Nusantara, mengelola sirkulasi pengemasan produk daur ulang kreatif, atau menyebarkan petisi digital pelindung kelautan.
+           </p>
+         </div>
+         <button onclick="openActionModal('Registrasi Relawan Lapangan', 'Masukkan informasi kontak Anda untuk menerima jadwal aksi bersih pantai terdekat dan kegiatan daur ulang komunitas lokal.')" 
+                 class="w-full py-3 bg-navy-900 hover:bg-navy-800 border border-slate-700 text-white font-semibold text-xs tracking-wider uppercase rounded-xl transition-all">
+           Gabung Relawan
+         </button>
+       </div>
+
+       <!-- Peran 4 -->
+       <div class="bg-navy-950 border border-white/5 p-8 rounded-3xl relative overflow-hidden flex flex-col justify-between min-h-[350px]">
+         <div>
+           <span class="font-mono text-[10px] text-cyan-400 tracking-wider">JALUR 04 / MITRA KORPORASI</span>
+           <h3 class="font-serif text-xl sm:text-2xl font-bold text-white mt-2 mb-4">Program Aliansi Hijau CSR</h3>
+           <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-8">
+             Salurkan dana CSR perusahaan Anda langsung untuk pendanaan ekspedisi maritim VML. Dapatkan sertifikasi kepatuhan lingkungan laut serta audit keterbukaan dampak yang transparan.
+           </p>
+         </div>
+         <button onclick="openActionModal('Mitra Korporasi & CSR', 'Hubungi perwakilan logistik VML untuk mengatur kerjasama strategis dan menyelaraskan nilai keberlanjutan bisnis Anda dengan laut kita.')" 
+                 class="w-full py-3 bg-navy-900 hover:bg-navy-800 border border-slate-700 text-white font-semibold text-xs tracking-wider uppercase rounded-xl transition-all">
+           Hubungi Aliansi
+         </button>
+       </div>
+
+       <!-- Peran 5 -->
+       <div class="bg-navy-950 border border-white/5 p-8 rounded-3xl relative overflow-hidden flex flex-col justify-between min-h-[350px] md:col-span-2 lg:col-span-1">
+         <div>
+           <span class="font-mono text-[10px] text-cyan-400 tracking-wider">JALUR 05 / VML TACTICAL</span>
+           <h3 class="font-serif text-xl sm:text-2xl font-bold text-white mt-2 mb-4">Penyelam Respon Cepat</h3>
+           <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-8">
+             Khusus bagi penyelam profesional bersertifikasi minimum Rescue Diver. Bergabunglah dalam jaringan relawan selam bersenjata pisau pemotong laut kami untuk aksi evakuasi darurat.
+           </p>
+         </div>
+         <button onclick="openActionModal('Registrasi Penyelam Taktis', 'Daftarkan profil menyelam, kepemilikan lisensi log, serta portofolio penyelamatan laut Anda untuk diverifikasikan oleh kapten VML.')" 
+                 class="w-full py-3 bg-navy-900 hover:bg-navy-800 border border-slate-700 text-white font-semibold text-xs tracking-wider uppercase rounded-xl transition-all">
+           Daftar Skuad Selam
+         </button>
+       </div>
+     </div>
+   </div>
+ </section>
+
+
+ <!-- SECTION 3: DONASI & ECO-MERCHANDISE -->
+ <section id="pendanaan" class="reveal py-24 max-w-7xl mx-auto px-6">
+   <div class="text-center mb-16">
+     <span class="text-cyan-400 text-xs font-extrabold tracking-widest uppercase">Pilar 3 & 4: Finansial Mandiri</span>
+     <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2 mb-4">Sirkulasi Pendanaan Berkelanjutan</h2>
+     <p class="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+       Kami mengubah limbah jaring maut menjadi produk siap pakai premium. 100% profit dialokasikan murni untuk membiayai kapal evakuasi dan logistik penyelamat laut Vanguard Marine Logistics.
+     </p>
+   </div>
+
+   <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+     <!-- TOKO MERCHANDISE -->
+     <div class="lg:col-span-7">
+       <h3 class="font-serif text-2xl font-bold text-white mb-6 flex items-center gap-3">
+         <i class="fa-solid fa-bag-shopping text-cyan-400"></i> Koleksi Premium Upcycled
+       </h3>
+       
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+         <!-- Item 1 -->
+         <div id="merch-1" class="group bg-navy-900 border border-white/5 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:border-cyan-400/50 hover:shadow-[0_0_40px_rgba(34,211,238,0.1)]">
+           <div class="w-full h-56 bg-navy-950 flex items-center justify-center overflow-hidden">
+             <img src="https://i.imgur.com/DtadCCQ.png" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Armor Case">
+           </div>
+           <div class="p-6">
+             <span class="inline-block text-[10px] font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-400/10 px-2 py-0.5 rounded mb-3">85% Profit untuk Laut</span>
+             <h4 class="font-bold text-white text-lg">Ocean-Bound Armor Case</h4>
+             <p class="text-xs text-slate-400 mt-1 mb-6 leading-relaxed">Casing minimalis pelindung benturan dari polimer jaring laut yang didaur ulang secara presisi.</p>
+             <div class="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
+               <span class="text-cyan-400 font-extrabold text-base">Rp 189.000</span>
+               <span class="text-[11px] font-mono text-slate-400">Sisa: <strong id="stock-1" class="text-slate-200">8</strong></span>
+             </div>
+             <button onclick="purchaseMerch(1, 'Ocean-Bound Armor Case', 189000)" class="w-full mt-5 py-3 bg-cyan-400 hover:bg-cyan-500 text-navy-950 rounded-xl text-xs font-bold uppercase tracking-wider transition-all transform active:scale-95 shadow-lg shadow-cyan-400/10">Beli Sekarang</button>
+           </div>
+         </div>
+
+         <!-- Item 2 -->
+         <div id="merch-2" class="group bg-navy-900 border border-white/5 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:border-cyan-400/50 hover:shadow-[0_0_40px_rgba(34,211,238,0.1)]">
+           <div class="w-full h-56 bg-navy-950 flex items-center justify-center overflow-hidden">
+             <img src="https://i.imgur.com/ShBfZLV.png" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Keychain">
+           </div>
+           <div class="p-6">
+             <span class="inline-block text-[10px] font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-400/10 px-2 py-0.5 rounded mb-3">100% Profit untuk Laut</span>
+             <h4 class="font-bold text-white text-lg">Ghost-Net Keychain</h4>
+             <p class="text-xs text-slate-400 mt-1 mb-6 leading-relaxed">Gantungan kunci anyaman tangan dari nilon jaring hantu, simbol perlawanan terhadap limbah laut.</p>
+             <div class="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
+               <span class="text-cyan-400 font-extrabold text-base">Rp 45.000</span>
+               <span class="text-[11px] font-mono text-slate-400">Sisa: <strong id="stock-2" class="text-slate-200">15</strong></span>
+             </div>
+             <button onclick="purchaseMerch(2, 'Ghost-Net Keychain', 45000)" class="w-full mt-5 py-3 bg-cyan-400 hover:bg-cyan-500 text-navy-950 rounded-xl text-xs font-bold uppercase tracking-wider transition-all transform active:scale-95 shadow-lg shadow-cyan-400/10">Beli Sekarang</button>
+           </div>
+         </div>
+
+         <!-- Item 3 -->
+         <div id="merch-3" class="group bg-navy-900 border border-white/5 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:border-cyan-400/50 hover:shadow-[0_0_40px_rgba(34,211,238,0.1)]">
+           <div class="w-full h-56 bg-navy-950 flex items-center justify-center overflow-hidden">
+             <img src="https://i.imgur.com/qdP310L.png" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Utility Tote">
+           </div>
+           <div class="p-6">
+             <span class="inline-block text-[10px] font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-400/10 px-2 py-0.5 rounded mb-3">80% Profit untuk Laut</span>
+             <h4 class="font-bold text-white text-lg">Sea-Canvas Utility Tote</h4>
+             <p class="text-xs text-slate-400 mt-1 mb-6 leading-relaxed">Tote bag ekstra kuat dibuat dari daur ulang kain layar kapal tangguh yang telah pensiun.</p>
+             <div class="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
+               <span class="text-cyan-400 font-extrabold text-base">Rp 125.000</span>
+               <span class="text-[11px] font-mono text-slate-400">Sisa: <strong id="stock-3" class="text-slate-200">6</strong></span>
+             </div>
+             <button onclick="purchaseMerch(3, 'Sea-Canvas Utility Tote', 125000)" class="w-full mt-5 py-3 bg-cyan-400 hover:bg-cyan-500 text-navy-950 rounded-xl text-xs font-bold uppercase tracking-wider transition-all transform active:scale-95 shadow-lg shadow-cyan-400/10">Beli Sekarang</button>
+           </div>
+         </div>
+
+         <!-- Item 4 -->
+         <div id="merch-4" class="group bg-navy-900 border border-white/5 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:border-cyan-400/50 hover:shadow-[0_0_40px_rgba(34,211,238,0.1)]">
+           <div class="w-full h-56 bg-navy-950 flex items-center justify-center overflow-hidden">
+             <img src="https://i.imgur.com/6xKirMs.png" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Waterproof Cap">
+           </div>
+           <div class="p-6">
+             <span class="inline-block text-[10px] font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-400/10 px-2 py-0.5 rounded mb-3">75% Profit untuk Laut</span>
+             <h4 class="font-bold text-white text-lg">Nylon Waterproof Cap</h4>
+             <p class="text-xs text-slate-400 mt-1 mb-6 leading-relaxed">Topi taktis tangguh anti air dari olahan nilon laut, siap menemani petualangan pesisir Anda.</p>
+             <div class="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
+               <span class="text-cyan-400 font-extrabold text-base">Rp 155.000</span>
+               <span class="text-[11px] font-mono text-slate-400">Sisa: <strong id="stock-4" class="text-slate-200">12</strong></span>
+             </div>
+             <button onclick="purchaseMerch(4, 'Nylon Waterproof Cap', 155000)" class="w-full mt-5 py-3 bg-cyan-400 hover:bg-cyan-500 text-navy-950 rounded-xl text-xs font-bold uppercase tracking-wider transition-all transform active:scale-95 shadow-lg shadow-cyan-400/10">Beli Sekarang</button>
+           </div>
+         </div>
+
+         <!-- Item 5 -->
+         <div id="merch-5" class="group bg-navy-900 border border-white/5 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-500 hover:border-cyan-400/50 hover:shadow-[0_0_40px_rgba(34,211,238,0.1)] md:col-span-2">
+           <div class="flex flex-col md:flex-row">
+             <div class="md:w-1/2 h-64 md:h-auto bg-navy-950 flex items-center justify-center overflow-hidden">
+               <img src="https://i.imgur.com/NDvxwP6.png" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Marine Bracelet">
+             </div>
+             <div class="p-8 md:w-1/2 flex flex-col justify-between">
+               <div>
+                 <span class="inline-block text-[10px] font-extrabold tracking-widest text-cyan-400 uppercase bg-cyan-400/10 px-2 py-0.5 rounded mb-4">90% Profit untuk Laut</span>
+                 <h4 class="font-bold text-white text-2xl mb-2">Marine Rope Bracelet</h4>
+                 <p class="text-sm text-slate-400 mt-1 mb-8 leading-relaxed">Gelang simpul anyaman pengait jangkar kuningan klasik dari serat sintetis limbah laut. Sebuah pernyataan gaya dengan misi nyata.</p>
+               </div>
+               <div>
+                 <div class="flex items-center justify-between pt-4 border-t border-white/5 mb-6">
+                   <span class="text-cyan-400 font-extrabold text-xl">Rp 75.000</span>
+                   <span class="text-[11px] font-mono text-slate-400">Sisa: <strong id="stock-5" class="text-slate-200">20</strong></span>
+                 </div>
+                 <button onclick="purchaseMerch(5, 'Marine Rope Bracelet', 75000)" class="w-full py-4 bg-cyan-400 hover:bg-cyan-500 text-navy-950 rounded-xl text-xs font-bold uppercase tracking-wider transition-all transform active:scale-95 shadow-lg shadow-cyan-400/10">Beli Sekarang</button>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+
+     <!-- CROWDFUNDING & DONASI DENGAN SELEBRASI GOAL -->
+     <div class="lg:col-span-5">
+       <h3 class="font-serif text-2xl font-bold text-white mb-6 flex items-center gap-3">
+         <i class="fa-solid fa-hand-holding-heart text-cyan-400"></i> Crowdfund Operasional
+       </h3>
+
+       <div id="donationCard" class="bg-navy-900 border border-white/5 rounded-3xl p-8 relative transition-all duration-500 shadow-xl">
+         
+         <div id="goalBanner" class="hidden mb-6 p-4 bg-gradient-to-r from-gold-500/20 to-cyan-500/20 border border-gold-400/30 rounded-2xl text-center">
+           <div class="text-gold-400 font-extrabold text-xs tracking-widest uppercase mb-1 flex items-center justify-center gap-1.5">
+             <i class="fa-solid fa-trophy animate-bounce"></i> Mission Target Reached! <i class="fa-solid fa-trophy animate-bounce"></i>
+           </div>
+           <p class="text-[11px] text-slate-200">Terima kasih banyak, target Rp 25.000.000 terlampaui! Dana terus bergulir untuk mendanai misi ekspedisi tambahan selanjutnya.</p>
+         </div>
+
+         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 items-center">
+           <div class="border-l-2 border-cyan-400 pl-3">
+             <span class="text-[10px] text-slate-400 font-mono tracking-widest block uppercase">TERKUMPUL</span>
+             <span id="currentFundsText" class="text-xl sm:text-2xl font-mono font-bold text-white whitespace-nowrap">Rp 24.500.000</span>
+           </div>
+           <div class="sm:text-right border-l-2 sm:border-l-0 sm:border-r-2 border-slate-700 pr-3 sm:pl-0 pl-3">
+             <span class="text-[10px] text-slate-400 font-mono tracking-widest block uppercase">TARGET MISI</span>
+             <span class="text-base sm:text-lg font-mono font-bold text-cyan-400 whitespace-nowrap">Rp 25.000.000</span>
+           </div>
+         </div>
+
+         <div class="w-full h-3 bg-navy-950 rounded-full overflow-hidden mb-8 border border-white/5">
+           <div id="progressBar" class="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-500 w-[98%]"></div>
+         </div>
+
+         <div class="mb-6">
+           <span class="text-xs font-semibold text-slate-400 block mb-3">Pilih Nominal Donasi Cepat</span>
+           <div class="grid grid-cols-3 gap-2">
+             <button onclick="selectAmount(50000, this)" class="donation-btn py-3 bg-navy-950/60 hover:bg-navy-800 border border-white/5 rounded-xl font-mono text-xs font-bold text-slate-300 transition-all hover:border-cyan-400/40">
+               50K
+             </button>
+             <button onclick="selectAmount(150000, this)" class="donation-btn py-3 bg-navy-950/60 hover:bg-navy-800 border border-cyan-400 bg-cyan-400/5 rounded-xl font-mono text-xs font-bold text-cyan-400 transition-all">
+               150K
+             </button>
+             <button onclick="selectAmount(500000, this)" class="donation-btn py-3 bg-navy-950/60 hover:bg-navy-800 border border-white/5 rounded-xl font-mono text-xs font-bold text-slate-300 transition-all hover:border-cyan-400/40">
+               500K
+             </button>
+           </div>
+         </div>
+
+         <div class="bg-navy-950/80 p-4 rounded-2xl border border-white/5 mb-8">
+           <span class="text-[10px] font-mono text-cyan-400 block mb-1 tracking-widest uppercase">// TRANSPARANSI OPERASIONAL</span>
+           <p id="donationImpactText" class="text-xs text-slate-400 leading-relaxed">
+             Donasi Rp 150.000 setara dengan mendanai **10 Liter BBM Kapal Penyelamat VML** untuk melakukan eksplorasi sapuan laut sejauh 5 km.
+           </p>
+         </div>
+
+         <button onclick="processDonation()" class="w-full py-4 bg-cyan-400 hover:bg-cyan-500 text-navy-950 font-bold text-sm tracking-wider uppercase rounded-xl transition-all shadow-lg shadow-cyan-400/20 hover:scale-[1.02] active:scale-[0.98]">
+           Kirim Dukungan Langsung
+         </button>
+       </div>
+     </div>
+   </div>
+ </section>
+
+ <!-- FOOTER -->
+ <footer class="bg-navy-950 border-t border-white/5 py-12">
+   <div class="max-w-7xl mx-auto px-6 text-center">
+     <a href="#" class="flex items-center justify-center gap-2.5 text-xl font-extrabold tracking-wider text-white mb-6">
+       <i class="fa-solid fa-anchor text-cyan-400"></i>
+       VML <span class="text-cyan-400 font-normal">VANGUARD MARINE</span>
+     </a>
+     <p class="text-xs text-slate-500 max-w-lg mx-auto leading-relaxed">
+       Platform ini adalah portal digital pelaporan dan pelestarian kelautan yang dikelola terintegrasi, transparan, dan akuntabel di bawah naungan Vanguard Marine Logistics Nusantara.
+     </p>
+     <div class="flex justify-center gap-6 mt-8 mb-12">
+       <a href="#" class="text-slate-400 hover:text-cyan-400 transition-all hover:scale-110" aria-label="Instagram"><i class="fa-brands fa-instagram text-lg"></i></a>
+       <a href="#" class="text-slate-400 hover:text-cyan-400 transition-all hover:scale-110" aria-label="YouTube"><i class="fa-brands fa-youtube text-lg"></i></a>
+       <a href="#" class="text-slate-400 hover:text-cyan-400 transition-all hover:scale-110" aria-label="TikTok"><i class="fa-brands fa-tiktok text-lg"></i></a>
+     </div>
+
+     <!-- Atribusi Gambar / Image Credits -->
+     <div class="max-w-4xl mx-auto mb-12 pt-12 border-t border-white/5">
+       <h4 class="text-[10px] font-extrabold tracking-[0.2em] text-slate-500 uppercase mb-8">Atribusi Aset Digital</h4>
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 text-left">
+         <div class="space-y-4">
+           <div class="group/credit">
+             <p class="text-[11px] text-slate-400 leading-relaxed font-medium">
+               <span class="text-slate-500 font-bold tracking-tight mr-1">Hero Section:</span> 
+               Foto oleh Hiroko Yoshii via 
+               <a href="https://images.unsplash.com/photo-1583212292454-1fe6229603b7" target="_blank" class="text-cyan-400/80 hover:text-cyan-400 transition-colors border-b border-cyan-400/20 hover:border-cyan-400">Unsplash</a>
+             </p>
+           </div>
+           <div class="group/credit">
+             <p class="text-[11px] text-slate-400 leading-relaxed font-medium">
+               <span class="text-slate-500 font-bold tracking-tight mr-1">Ghost Nets:</span> 
+               Foto oleh Francesco Ricciardi via 
+               <a href="https://www.istockphoto.com/id/foto/jaring-ikan-yang-dibuang-di-terumbu-karang-gm1489378220-514299298?searchscope=image%2Cfilm" target="_blank" class="text-cyan-400/80 hover:text-cyan-400 transition-colors border-b border-cyan-400/20 hover:border-cyan-400">iStock</a>
+             </p>
+           </div>
+           <div class="group/credit">
+             <p class="text-[11px] text-slate-400 leading-relaxed font-medium">
+               <span class="text-slate-500 font-bold tracking-tight mr-1">Polusi Suara:</span> 
+               Foto oleh NOAA via 
+               <a href="https://therevelator.org/wp-content/uploads/2019/06/marine-noise-noaa.png" target="_blank" class="text-cyan-400/80 hover:text-cyan-400 transition-colors border-b border-cyan-400/20 hover:border-cyan-400">The Revelator</a>
+             </p>
+           </div>
+         </div>
+         <div class="space-y-4">
+           <div class="group/credit">
+             <p class="text-[11px] text-slate-400 leading-relaxed font-medium">
+               <span class="text-slate-500 font-bold tracking-tight mr-1">Pengasaman Laut:</span> 
+               Foto oleh Michael Patrick O'Neill via 
+               <a href="https://asset.kompas.com/crops/uv6myjY2sJKwywkuVhFcRrZbSNE=/0x0:845x563/750x500/data/photo/2022/07/18/62d4d1d8ddadb.jpg" target="_blank" class="text-cyan-400/80 hover:text-cyan-400 transition-colors border-b border-cyan-400/20 hover:border-cyan-400">Kompas.com</a>
+             </p>
+           </div>
+           <div class="group/credit">
+             <p class="text-[11px] text-slate-400 leading-relaxed font-medium">
+               <span class="text-slate-500 font-bold tracking-tight mr-1">Mikroplastik:</span> 
+               Visual oleh Magnific AI via 
+               <a href="https://img.magnific.com/foto-premium/botol-plastik-dan-benda-benda-lain-mengambang-di-air_81048-47393.jpg" target="_blank" class="text-cyan-400/80 hover:text-cyan-400 transition-colors border-b border-cyan-400/20 hover:border-cyan-400">Magnific.com</a>
+             </p>
+           </div>
+           <div class="group/credit">
+             <p class="text-[11px] text-slate-400 leading-relaxed font-medium">
+               <span class="text-slate-500 font-bold tracking-tight mr-1">Destructive Fishing:</span> 
+               Foto oleh Berkley White via 
+               <a href="https://ocean.si.edu/sites/default/files/styles/full_width_large/public/2023-11/Bycatch_Blast_Fishing_BWhite_SangeanMenjang_Clsp_088.jpg.webp" target="_blank" class="text-cyan-400/80 hover:text-cyan-400 transition-colors border-b border-cyan-400/20 hover:border-cyan-400">Smithsonian Ocean</a>
+             </p>
+           </div>
+         </div>
+       </div>
+     </div>
+
+     <p class="text-[10px] text-slate-600 font-mono">&copy; 2026 VANGUARD MARINE LOGISTICS (VML). ALL RIGHTS RESERVED.</p>
+   </div>
+ </footer>
+
+ <!-- INTERACTIVE MODALS & SYSTEM TOAST NOTIFICATIONS -->
+ <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 max-w-sm w-full bg-navy-900 border border-cyan-400/30 p-4 rounded-2xl flex items-start gap-3 shadow-2xl">
+   <div class="w-8 h-8 rounded-full bg-cyan-400/10 flex items-center justify-center text-cyan-400 text-sm flex-shrink-0">
+     <i class="fa-solid fa-circle-check"></i>
+   </div>
+   <div>
+     <h4 id="toastTitle" class="text-xs font-bold text-white">Sistem Diperbarui</h4>
+     <p id="toastMessage" class="text-[11px] text-slate-400 mt-0.5">Sinyal operasi berhasil dilakukan.</p>
+   </div>
+ </div>
+
+ <!-- Deep Dive Technical Modal -->
+ <div id="deepDiveModal" class="fixed inset-0 z-[60] bg-navy-950/90 backdrop-blur-xl flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
+   <div class="bg-navy-900 border border-white/10 rounded-[2rem] max-w-4xl w-full max-h-[90vh] overflow-hidden relative transform scale-95 transition-all duration-300 flex flex-col">
+     <div class="p-8 border-b border-white/5 flex justify-between items-center bg-navy-900/50 backdrop-blur-md sticky top-0 z-10">
+       <div>
+         <span id="diveCategory" class="text-xs font-mono text-cyan-400 tracking-widest uppercase mb-1 block">// DEEP DIVE TECHNICAL</span>
+         <h3 id="diveTitle" class="font-serif text-3xl font-bold text-white">Judul Ancaman</h3>
+       </div>
+       <button onclick="closeDeepDive()" class="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all">
+         <i class="fa-solid fa-xmark"></i>
+       </button>
+     </div>
+     
+     <div id="diveContent" class="p-8 overflow-y-auto custom-scrollbar space-y-8"></div>
+
+     <div class="p-6 bg-navy-950/50 border-t border-white/5 flex justify-center">
+       <p class="text-[10px] text-slate-500 font-mono tracking-widest uppercase">Vanguard Marine Logistics Technical Archive v2.0.1</p>
+     </div>
+   </div>
+ </div>
+
+ <!-- Payment Selection Modal -->
+ <div id="paymentModal" class="fixed inset-0 z-[70] bg-navy-950/90 backdrop-blur-xl flex items-center justify-center p-4 hidden opacity-0 transition-all duration-300">
+   <div class="bg-white rounded-[2rem] max-w-lg w-full overflow-hidden relative transform scale-95 transition-all duration-300 shadow-2xl flex flex-col md:flex-row">
+     <div class="hidden md:flex md:w-1/3 bg-navy-900 p-8 flex-col justify-between text-white">
+       <div>
+         <i class="fa-solid fa-anchor text-cyan-400 text-2xl mb-6"></i>
+         <h4 class="font-serif text-xl font-bold mb-2">Kontribusi Anda</h4>
+         <p id="paymentSummaryLabel" class="text-xs text-slate-400 leading-relaxed">Mendukung misi evakuasi laut Indonesia.</p>
+       </div>
+       <div class="mt-8">
+         <div class="text-[10px] font-mono text-cyan-400 tracking-widest uppercase mb-1">Total Pembayaran</div>
+         <div id="paymentSummaryAmount" class="text-2xl font-bold">Rp 0</div>
+       </div>
+     </div>
+
+     <div class="flex-1 p-8 text-navy-950">
+       <button onclick="closePaymentModal()" class="absolute top-6 right-6 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 transition-all">
+         <i class="fa-solid fa-xmark"></i>
+       </button>
+
+       <div id="frequencySection" class="mb-8">
+         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 block">Frekuensi Dukungan</label>
+         <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl">
+           <button onclick="setFrequency('once')" id="freqOnce" class="py-2.5 text-xs font-bold rounded-lg transition-all bg-white shadow-sm text-navy-950">Sekali</button>
+           <button onclick="setFrequency('monthly')" id="freqMonthly" class="py-2.5 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-navy-950">Bulanan</button>
+         </div>
+       </div>
+
+       <div class="space-y-4 mb-8">
+         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block -mb-1">Informasi Donatur</label>
+         <div class="grid grid-cols-1 gap-3">
+           <input id="donorName" type="text" placeholder="Nama Lengkap" class="w-full bg-slate-50 border border-slate-200 focus:border-cyan-500 rounded-xl px-4 py-3 text-xs outline-none transition-all">
+           <input id="donorEmail" type="email" placeholder="Alamat Email" class="w-full bg-slate-50 border border-slate-200 focus:border-cyan-500 rounded-xl px-4 py-3 text-xs outline-none transition-all">
+         </div>
+       </div>
+
+       <div>
+         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 block">Pilih Metode Pembayaran</label>
+         <div class="space-y-2">
+           <button onclick="selectPaymentMethod('qris')" class="w-full p-4 rounded-xl border border-slate-200 hover:border-cyan-500 hover:bg-cyan-50 transition-all flex items-center gap-4 group">
+             <div class="w-10 h-10 rounded-lg bg-white border border-slate-100 flex items-center justify-center p-1.5">
+               <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" alt="QRIS" class="w-full">
+             </div>
+             <span class="text-sm font-bold text-slate-700">QRIS / E-Wallet</span>
+             <i class="fa-solid fa-chevron-right ml-auto text-slate-300 group-hover:text-cyan-500 text-xs"></i>
+           </button>
+           <button onclick="selectPaymentMethod('bank')" class="w-full p-4 rounded-xl border border-slate-200 hover:border-cyan-500 hover:bg-cyan-50 transition-all flex items-center gap-4 group">
+             <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-600">
+               <i class="fa-solid fa-building-columns"></i>
+             </div>
+             <span class="text-sm font-bold text-slate-700">Transfer Bank</span>
+             <i class="fa-solid fa-chevron-right ml-auto text-slate-300 group-hover:text-cyan-500 text-xs"></i>
+           </button>
+         </div>
+       </div>
+
+       <div class="mt-6 text-center">
+         <p class="text-[9px] text-slate-400 flex items-center justify-center gap-1.5 uppercase tracking-tighter">
+           <i class="fa-solid fa-lock text-emerald-500"></i> Secure Checkout Guaranteed
+         </p>
+       </div>
+     </div>
+   </div>
+ </div>
+
+ <!-- Action Map Info Modal -->
+ <div id="actionModal" class="fixed inset-0 z-50 bg-navy-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+   <div class="bg-navy-900 border border-cyan-400/30 rounded-3xl p-8 max-w-md w-full relative transform scale-95 transition-transform duration-300">
+     <button onclick="closeActionModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+       <i class="fa-solid fa-xmark"></i>
+     </button>
+     <span class="text-xs font-mono text-cyan-400 block mb-2 tracking-widest uppercase">// PERMINTAAN SISTEM</span>
+     <h3 id="modalActionTitle" class="font-serif text-2xl font-bold text-white mb-4">Aksi Komunitas</h3>
+     <p id="modalActionDesc" class="text-slate-400 text-xs leading-relaxed mb-6">Penjelasan interaksi pendaftaran simulasi aksi di lapangan.</p>
+     
+     <div class="space-y-4">
+       <input id="actionName" type="text" placeholder="Nama Lengkap" class="w-full bg-navy-950 border border-white/5 focus:border-cyan-400/40 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-600 outline-none transition-all">
+       <input id="actionContact" type="email" placeholder="Alamat Surel / Nomor WhatsApp" class="w-full bg-navy-950 border border-white/5 focus:border-cyan-400/40 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-600 outline-none transition-all">
+       <button onclick="submitActionData()" class="w-full py-3.5 bg-cyan-400 hover:bg-cyan-500 text-navy-950 font-bold text-xs tracking-wider uppercase rounded-xl transition-all">
+         Kirim Permintaan Aksi
+       </button>
+     </div>
+   </div>
+ </div>
+
+ <script>
+ const state = {
+   currentRaised: 24500000,
+   targetGoal: 25000000,
+   selectedAmount: 150000,
+   merchStock: {
+     1: 8,
+     2: 15,
+     3: 6,
+     4: 12,
+     5: 20
+   }
+ };
+
+ function toggleMobileMenu() {
+   const menu = document.getElementById('mobileMenu');
+   menu.classList.toggle('hidden');
+ }
+
+ function updateDonationDOM() {
+   const currentText = document.getElementById('currentFundsText');
+   const fillBar = document.getElementById('progressBar');
+   const goalBanner = document.getElementById('goalBanner');
+   const donationCard = document.getElementById('donationCard');
+
+   currentText.innerText = "Rp " + state.currentRaised.toLocaleString('id-ID');
+   let percentage = (state.currentRaised / state.targetGoal) * 100;
+   fillBar.style.width = Math.min(percentage, 100) + "%";
+
+   if (state.currentRaised >= state.targetGoal) {
+     donationCard.classList.add('glow-gold', 'celebrate-border');
+     donationCard.style.borderColor = '#fbbf24';
+     goalBanner.classList.remove('hidden');
+     fillBar.classList.remove('from-cyan-500', 'to-blue-500');
+     fillBar.classList.add('bg-gradient-to-r', 'from-gold-400', 'to-yellow-600');
+   } else {
+     donationCard.classList.remove('glow-gold', 'celebrate-border');
+     donationCard.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+     goalBanner.classList.add('hidden');
+     fillBar.classList.remove('from-gold-400', 'to-yellow-600');
+     fillBar.classList.add('from-cyan-500', 'to-blue-500');
+   }
+ }
+
+ function selectAmount(amount, buttonElement) {
+   state.selectedAmount = amount;
+   document.querySelectorAll('.donation-btn').forEach(btn => {
+     btn.classList.remove('border-cyan-400', 'text-cyan-400', 'bg-cyan-400/5');
+     btn.classList.add('border-white/5', 'text-slate-300');
+   });
+   buttonElement.classList.remove('border-white/5', 'text-slate-300');
+   buttonElement.classList.add('border-cyan-400', 'text-cyan-400', 'bg-cyan-400/5');
+
+   const impactDesc = document.getElementById('donationImpactText');
+   if (amount === 50000) {
+     impactDesc.innerHTML = "Donasi Rp 50.000 setara dengan mendanai **1 buah pisau potong serbaguna khusus** untuk membantu memotong jaring hantu nilon tebal.";
+   } else if (amount === 150000) {
+     impactDesc.innerHTML = "Donasi Rp 150.000 setara dengan mendanai **10 Liter BBM Kapal Penyelamat VML** untuk melakukan eksplorasi sapuan laut sejauh 5 km.";
+   } else {
+     impactDesc.innerHTML = "Donasi Rp 500.000 setara dengan mendanai **sewa 1 tabung gas oksigen selam** untuk durasi evakuasi selama 1,5 jam di kedalaman.";
+   }
+ }
+
+ let pendingTransaction = null;
+
+ function processDonation() {
+   pendingTransaction = {
+     type: 'donation',
+     amount: state.selectedAmount,
+     label: `Donasi Rp ${state.selectedAmount.toLocaleString('id-ID')}`
+   };
+   openPaymentModal(pendingTransaction.label);
+ }
+
+ function purchaseMerch(id, name, price) {
+   if (state.merchStock[id] > 0) {
+     let contributionPercentage = 80; 
+     if (id === 1) contributionPercentage = 85;
+     if (id === 2) contributionPercentage = 100;
+     if (id === 3) contributionPercentage = 80;
+     if (id === 4) contributionPercentage = 75;
+     if (id === 5) contributionPercentage = 90;
+
+     let calculatedDonation = (price * contributionPercentage) / 100;
+
+     pendingTransaction = {
+       type: 'merch',
+       id: id,
+       name: name,
+       price: price,
+       donation: calculatedDonation,
+       label: `Beli ${name} - Rp ${price.toLocaleString('id-ID')}`
+     };
+     openPaymentModal(pendingTransaction.label);
+   }
+ }
+
+ function setFrequency(freq) {
+   const onceBtn = document.getElementById('freqOnce');
+   const monthlyBtn = document.getElementById('freqMonthly');
+   if (freq === 'once') {
+     onceBtn.classList.add('bg-white', 'shadow-sm', 'text-navy-950');
+     onceBtn.classList.remove('text-slate-500');
+     monthlyBtn.classList.remove('bg-white', 'shadow-sm', 'text-navy-950');
+     monthlyBtn.classList.add('text-slate-500');
+   } else {
+     monthlyBtn.classList.add('bg-white', 'shadow-sm', 'text-navy-950');
+     monthlyBtn.classList.remove('text-slate-500');
+     onceBtn.classList.remove('bg-white', 'shadow-sm', 'text-navy-950');
+     onceBtn.classList.add('text-slate-500');
+   }
+ }
+
+ function openPaymentModal(label) {
+   const modal = document.getElementById('paymentModal');
+   document.getElementById('paymentSummaryLabel').innerText = pendingTransaction.name || "Dukungan Misi Laut VML";
+   const amount = pendingTransaction.amount || pendingTransaction.price;
+   document.getElementById('paymentSummaryAmount').innerText = "Rp " + amount.toLocaleString('id-ID');
+
+   const freqSection = document.getElementById('frequencySection');
+   if (pendingTransaction.type === 'merch') {
+     freqSection.classList.add('hidden');
+   } else {
+     freqSection.classList.remove('hidden');
+   }
+   
+   modal.classList.remove('hidden');
+   setTimeout(() => {
+     modal.classList.remove('opacity-0');
+     modal.querySelector('div').classList.remove('scale-95');
+   }, 10);
+   document.body.style.overflow = 'hidden';
+ }
+
+ function closePaymentModal() {
+   const modal = document.getElementById('paymentModal');
+   modal.classList.add('opacity-0');
+   modal.querySelector('div').classList.add('scale-95');
+   setTimeout(() => {
+     modal.classList.add('hidden');
+   }, 300);
+   document.body.style.overflow = 'auto';
+   pendingTransaction = null;
+ }
+
+ function selectPaymentMethod(method) {
+   if (!pendingTransaction) return;
+   const methodNames = { 'qris': 'QRIS/E-Wallet', 'bank': 'Transfer Bank (VA)' };
+
+   if (pendingTransaction.type === 'donation') {
+     state.currentRaised += pendingTransaction.amount;
+     showToast("Donasi Berhasil", `Terima kasih! Pembayaran via ${methodNames[method]} sukses. Rp ${pendingTransaction.amount.toLocaleString('id-ID')} masuk ke log misi.`);
+   } else if (pendingTransaction.type === 'merch') {
+     const id = pendingTransaction.id;
+     state.merchStock[id]--;
+     document.getElementById(`stock-${id}`).innerText = state.merchStock[id];
+     state.currentRaised += pendingTransaction.donation;
+     showToast("Pesanan Berhasil", `Pembayaran via ${methodNames[method]} sukses. Rp ${pendingTransaction.donation.toLocaleString('id-ID')} disumbangkan ke laut!`);
+
+     if (state.merchStock[id] === 0) {
+       const card = document.getElementById(`merch-${id}`);
+       const btn = card.querySelector('button');
+       btn.innerText = "Stok Habis";
+       btn.classList.remove('bg-cyan-400', 'hover:bg-cyan-500', 'text-navy-950');
+       btn.classList.add('bg-slate-800', 'text-slate-500', 'cursor-not-allowed');
+       btn.removeAttribute('onclick');
+     }
+   }
+   updateDonationDOM();
+   closePaymentModal();
+ }
+
+ function openActionModal(title, desc) {
+   const modal = document.getElementById('actionModal');
+   document.getElementById('modalActionTitle').innerText = title;
+   document.getElementById('modalActionDesc').innerText = desc;
+   modal.classList.remove('hidden');
+   setTimeout(() => {
+     modal.classList.remove('opacity-0');
+     modal.querySelector('div').classList.remove('scale-95');
+   }, 10);
+ }
+
+ function closeActionModal() {
+   const modal = document.getElementById('actionModal');
+   modal.classList.add('opacity-0');
+   modal.querySelector('div').classList.add('scale-95');
+   setTimeout(() => {
+     modal.classList.add('hidden');
+   }, 300);
+ }
+
+ function submitActionData() {
+   closeActionModal();
+   showToast("Aksi Berhasil Dikirim", "Pihak penyelaras lapangan VML segera menghubungi Anda!");
+ }
+
+ function showToast(title, message) {
+   const toast = document.getElementById('toast');
+   document.getElementById('toastTitle').innerText = title;
+   document.getElementById('toastMessage').innerText = message;
+   toast.classList.remove('opacity-0', 'translate-y-20', 'pointer-events-none');
+   setTimeout(() => {
+     toast.classList.add('opacity-0', 'translate-y-20', 'pointer-events-none');
+   }, 4500);
+ }
+
+ const deepDiveData = {
+   ghostnets: {
+     title: "Ghost Nets: Ancaman Polimer Abadi",
+     category: "Analisis Polimer & Ekologi",
+     content: `<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start"><div><h4 class="text-white font-bold mb-3">Persistensi Material</h4><p class="text-sm text-slate-400 leading-relaxed mb-6">Sebagian besar jaring modern terbuat dari nilon (Poliamida 6) atau polipropilena. Material ini memiliki struktur molekul yang sangat stabil, membuatnya tahan terhadap degradasi UV dan hidrolisis di lingkungan laut. Secara teknis, satu jaring hantu dapat terus beroperasi secara pasif selama <strong>400 hingga 600 tahun</strong>.</p><h4 class="text-white font-bold mb-3">Dampak Spesifik di Indonesia</h4><p class="text-sm text-slate-400 leading-relaxed">Di kawasan Segitiga Terumbu Karang Indonesia, jaring hantu merobek polip karang dan menghalangi cahaya matahari. Seekor penyu yang terjerat memiliki probabilitas kematian 90% dalam 48 jam jika tidak segera dievakuasi.</p></div><div class="space-y-4"><img src="https://media.istockphoto.com/id/1489378220/photo/discarded-fishing-net-on-a-coral-reef.webp?b=1&s=612x612&w=0&k=20&c=8TUyHIQv5Ulu129iaz1DCliKvknY9oGndGTB3fmqpzQ=" class="rounded-2xl border border-white/5 w-full aspect-video object-cover"><div class="bg-cyan-400/5 border border-cyan-400/20 p-4 rounded-2xl"><span class="text-[10px] font-mono text-cyan-400 block mb-1 uppercase tracking-tighter">// Statistik Operasional VML</span><p class="text-xs text-slate-300">Setiap 1km jaring hantu yang dievakuasi berpotensi menyelamatkan ~150 spesies megafauna laut dalam 10 tahun.</p></div></div></div>`
+   },
+   noise: {
+     title: "Noise Pollution: Gangguan Sonar Masif",
+     category: "Bioakustik & Navigasi",
+     content: `<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start"><div><h4 class="text-white font-bold mb-3">Bioakustik Cetacea</h4><p class="text-sm text-slate-400 leading-relaxed mb-6">Paus dan lumba-lumba mengandalkan echolocation untuk navigasi dan komunikasi. Suara mesin kapal kargo dapat mencapai 190 desibel (dB), yang secara efektif 'membutakan' mereka.</p><h4 class="text-white font-bold mb-3">Kasus Kritis: ALKI Indonesia</h4><p class="text-sm text-slate-400 leading-relaxed">Peningkatan lalu lintas di Alur Laut Kepulauan Indonesia (ALKI) meningkatkan risiko tabrakan kapal dan gangguan migrasi paus biru. Polusi suara menyebabkan kenaikan hormon kortisol secara kronis.</p></div><div class="space-y-4"><img src="https://therevelator.org/wp-content/uploads/2019/06/marine-noise-noaa.png" class="rounded-2xl border border-white/5 w-full aspect-video object-cover"></div></div>`
+   },
+   acid: {
+     title: "Acidification: Degradasi pH Paparan Sunda",
+     category: "Geokimia Kelautan",
+     content: `<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start"><div><h4 class="text-white font-bold mb-3">Krisis Kalsifikasi</h4><p class="text-sm text-slate-400 leading-relaxed mb-6">Ketika CO2 bereaksi dengan air laut, ia membentuk asam karbonat yang menurunkan pH. Hal ini mengurangi ketersediaan ion karbonat yang dibutuhkan oleh karang dan moluska untuk membangun kerangka kalsium karbonat.</p></div><div class="space-y-4"><img src="https://asset.kompas.com/crops/uv6myjY2sJKwywkuVhFcRrZbSNE=/0x0:845x563/750x500/data/photo/2022/07/18/62d4d1d8ddadb.jpg" class="rounded-2xl border border-white/5 w-full aspect-video object-cover"></div></div>`
+   },
+   microplastics: {
+     title: "Invasi Mikroplastik: Polimer dalam Rantai Pangan",
+     category: "Toksikologi Kelautan",
+     content: `<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start"><div><h4 class="text-white font-bold mb-3">Akumulasi Berbahaya</h4><p class="text-sm text-slate-400 leading-relaxed mb-6">Mikroplastik bertindak seperti spons kimia yang menyerap polutan organik hidrofobik di laut. Ketika tertelan oleh biota tingkat rendah, bahan kimia ini berakumulasi ke tingkat trofik yang lebih tinggi.</p></div><div class="space-y-4"><img src="https://img.magnific.com/foto-premium/botol-plastik-dan-benda-benda-lain-mengambang-di-air_81048-47393.jpg" class="rounded-2xl border border-white/5 w-full aspect-video object-cover"></div></div>`
+   },
+   destructive: {
+     title: "Destructive Fishing: Kehancuran Jaringan Karang",
+     category: "Konservasi Habitat Terumbu Karang",
+     content: `<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start"><div><h4 class="text-white font-bold mb-3">Kehancuran Fisik Seketika</h4><p class="text-sm text-slate-400 leading-relaxed mb-6">Satu ledakan bom ikan rakitan berkekuatan sedang dapat menciptakan kawah kehancuran karang seluas ratusan meter persegi, menyisakan gurun pasir putih di bawah laut.</p></div><div class="space-y-4"><img src="https://ocean.si.edu/sites/default/files/styles/full_width_large/public/2023-11/Bycatch_Blast_Fishing_BWhite_SangeanMenjang_Clsp_088.jpg.webp?itok=3gmZwKYX" class="rounded-2xl border border-white/5 w-full aspect-video object-cover"></div></div>`
+   }
+ };
+
+ function openDeepDive(key) {
+   const modal = document.getElementById('deepDiveModal');
+   const data = deepDiveData[key];
+   document.getElementById('diveTitle').innerText = data.title;
+   document.getElementById('diveCategory').innerText = "// " + data.category;
+   document.getElementById('diveContent').innerHTML = data.content;
+   modal.classList.remove('hidden');
+   setTimeout(() => { modal.classList.remove('opacity-0'); modal.querySelector('div').classList.remove('scale-95'); }, 10);
+   document.body.style.overflow = 'hidden';
+ }
+
+ function closeDeepDive() {
+   const modal = document.getElementById('deepDiveModal');
+   modal.classList.add('opacity-0');
+   modal.querySelector('div').classList.add('scale-95');
+   setTimeout(() => { modal.classList.add('hidden'); }, 300);
+   document.body.style.overflow = 'auto';
+ }
+
+ const fish = document.getElementById('fish-cursor');
+ let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2, fishX = mouseX, fishY = mouseY;
+ const lerpSpeed = 0.08;
+
+ window.addEventListener('mousemove', (e) => {
+   mouseX = e.clientX; mouseY = e.clientY;
+   if (fish.classList.contains('hidden')) fish.classList.remove('hidden');
+ });
+
+ window.addEventListener('touchmove', (e) => {
+   if (e.touches.length > 0) {
+     mouseX = e.touches[0].clientX;
+     mouseY = e.touches[0].clientY;
+     if (fish.classList.contains('hidden')) fish.classList.remove('hidden');
+   }
+ }, { passive: false });
+
+ window.addEventListener('touchstart', (e) => {
+   if (e.touches.length > 0) {
+     mouseX = e.touches[0].clientX;
+     mouseY = e.touches[0].clientY;
+     if (fish.classList.contains('hidden')) fish.classList.remove('hidden');
+   }
+ }, { passive: true });
+
+ function animateCursor() {
+   const dx = mouseX - fishX; const dy = mouseY - fishY;
+   fishX += dx * lerpSpeed; fishY += dy * lerpSpeed;
+   const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+   fish.style.left = `${fishX}px`; fish.style.top = `${fishY}px`;
+   fish.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+   requestAnimationFrame(animateCursor);
+ }
+ animateCursor();
+
+ window.addEventListener('click', (e) => {
+   const bubble = document.createElement('div');
+   bubble.classList.add('bubble-effect');
+   const size = Math.random() * 15 + 10;
+   bubble.style.width = `${size}px`; bubble.style.height = `${size}px`;
+   bubble.style.left = `${e.clientX - size/2}px`; bubble.style.top = `${e.clientY - size/2}px`;
+   document.body.appendChild(bubble);
+   setTimeout(() => { bubble.remove(); }, 1200);
+ });
+
+ window.onload = function() { 
+   updateDonationDOM();
+   
+   // Intersection Observer for Reveal on Scroll
+   const revealCallback = (entries, observer) => {
+     entries.forEach(entry => {
+       if (entry.isIntersecting) {
+         entry.target.classList.add('active');
+       }
+     });
+   };
+   
+   const revealObserver = new IntersectionObserver(revealCallback, {
+     threshold: 0.1
+   });
+   
+   document.querySelectorAll('.reveal').forEach(el => {
+     revealObserver.observe(el);
+   });
+ };
+ </script>
+</body>
+</html>
