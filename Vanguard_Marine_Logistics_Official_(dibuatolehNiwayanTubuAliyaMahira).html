@@ -307,8 +307,15 @@
                
                <!-- Content: Visual representation of a mission -->
                <div id="mission-map" class="relative h-[420px] bg-navy-950 overflow-hidden">
-                 <img src="https://images.unsplash.com/photo-1551244072-5d12893278ab?q=80&w=1200" class="w-full h-full object-cover opacity-20 grayscale contrast-125" alt="Marine Map">
+                 <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-cyan-500/5 via-transparent to-transparent z-10"></div>
+                 <img src="https://img.freepik.com/free-photo/futuristic-digital-map-with-glowing-dots_23-2151036322.jpg" class="w-full h-full object-cover opacity-30 grayscale contrast-150 scale-110" alt="Tactical Radar Map">
                  
+                 <!-- Radar Pulse Effect -->
+                 <div class="absolute inset-0 pointer-events-none z-10">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-cyan-400/10 rounded-full animate-ping" style="animation-duration: 4s"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-cyan-400/5 rounded-full"></div>
+                 </div>
+
                  <!-- Minimalist Terminal Log -->
                  <div class="absolute top-4 left-4 w-48 sm:w-72 h-36 bg-navy-950/90 border border-white/20 rounded-lg p-3 font-mono text-[9px] text-white overflow-hidden pointer-events-none terminal-scanline shadow-2xl z-20">
                     <div class="text-cyan-400 font-bold border-b border-white/10 pb-1 mb-1">LOG OPERASIONAL</div>
@@ -1314,6 +1321,12 @@
        { id: 'diverLicense', type: 'text', placeholder: 'Level Sertifikasi (Rescue/DM/Inst)' },
        { id: 'diverLog', type: 'number', placeholder: 'Jumlah Log Dive' }
      ];
+   } else if (title.includes('Response')) {
+     extraFields = [
+       { id: 'vesselId', type: 'text', placeholder: 'ID Armada / Vessel ID' },
+       { id: 'commanderName', type: 'text', placeholder: 'Nama Komandan Misi' },
+       { id: 'etaTime', type: 'text', placeholder: 'Estimasi Waktu Tiba (ETA)' }
+     ];
    }
 
    [...commonFields, ...extraFields].forEach(field => {
@@ -1341,9 +1354,54 @@
    }, 300);
  }
 
+ let currentActionContext = '';
+
  function submitActionData() {
+   const title = document.getElementById('modalActionTitle').innerText;
+   const container = document.getElementById('actionFormContainer');
+   const inputs = container.querySelectorAll('input');
+   let isValid = true;
+
+   inputs.forEach(input => {
+     if (!input.value.trim()) {
+       isValid = false;
+       input.classList.add('border-red-500');
+       input.classList.remove('border-white/5');
+     } else {
+       input.classList.remove('border-red-500');
+       input.classList.add('border-white/5');
+     }
+   });
+
+   if (!isValid) {
+     showToast("Data Tidak Lengkap", "Harap isi semua field sebelum mengirimkan data.");
+     return;
+   }
+
    closeActionModal();
-   showToast("Aksi Berhasil Dikirim", "Pihak penyelaras lapangan VML segera menghubungi Anda!");
+
+   if (title.includes('Response')) {
+     const intelStatus = document.getElementById('intel-status');
+     const originalStatus = intelStatus.innerText;
+     const originalColor = intelStatus.className;
+
+     intelStatus.innerText = "SEDANG DIEKSEKUSI...";
+     intelStatus.className = "text-gold-400 font-black text-right animate-pulse";
+
+     showToast("Misi Dimulai", "Tim Respon Lapangan telah dikerahkan ke koordinat target.");
+
+     setTimeout(() => {
+       intelStatus.innerText = "OPERASI SUKSES";
+       intelStatus.className = "text-emerald-400 font-black text-right";
+
+       setTimeout(() => {
+         intelStatus.innerText = originalStatus;
+         intelStatus.className = originalColor;
+       }, 5000);
+     }, 8000);
+   } else {
+     showToast("Aksi Berhasil Dikirim", "Pihak penyelaras lapangan VML segera menghubungi Anda!");
+   }
  }
 
  function showToast(title, message) {
