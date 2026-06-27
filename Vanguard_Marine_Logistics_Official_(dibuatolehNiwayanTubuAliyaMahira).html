@@ -189,17 +189,19 @@
          </span>
        </a>
        
-       <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 text-white hover:bg-white/10 transition-all focus:outline-none" aria-label="Menu">
-         <i class="fa-solid fa-bars text-sm"></i>
+       <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-lg bg-white/5 text-white hover:bg-white/10 transition-all focus:outline-none group" aria-label="Menu">
+         <div class="hamburger-line w-5 h-0.5 bg-white transition-all duration-300 group-[.active]:rotate-45 group-[.active]:translate-y-2"></div>
+         <div class="hamburger-line w-5 h-0.5 bg-white transition-all duration-300 group-[.active]:opacity-0"></div>
+         <div class="hamburger-line w-5 h-0.5 bg-white transition-all duration-300 group-[.active]:-rotate-45 group-[.active]:-translate-y-2"></div>
        </button>
      </div>
    </div>
    
-   <div id="mobileMenu" class="hidden lg:hidden border-t border-white/5 bg-navy-950/95 backdrop-blur-lg px-6 py-4 space-y-4 transition-all duration-300">
-     <a href="#tentang-kami" onclick="toggleMobileMenu()" class="block text-sm font-semibold text-slate-300 hover:text-cyan-400 transition-colors">Tentang Kami</a>
-     <a href="#masalah" onclick="toggleMobileMenu()" class="block text-sm font-semibold text-slate-300 hover:text-cyan-400 transition-colors">Ancaman Laut</a>
-     <a href="#bermain" onclick="toggleMobileMenu()" class="block text-sm font-semibold text-slate-300 hover:text-cyan-400 transition-colors">Cara Berpartisipasi</a>
-     <a href="#pendanaan" onclick="toggleMobileMenu()" class="block text-sm font-semibold text-slate-300 hover:text-cyan-400 transition-colors">Merchandise & Donasi</a>
+   <div id="mobileMenu" class="fixed inset-x-0 top-16 sm:top-20 bottom-0 bg-navy-950/98 backdrop-blur-2xl z-40 lg:hidden flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-all duration-500 scale-110">
+     <a href="#tentang-kami" onclick="toggleMobileMenu()" class="text-2xl font-serif font-bold text-white hover:text-cyan-400 transition-colors">Tentang Kami</a>
+     <a href="#masalah" onclick="toggleMobileMenu()" class="text-2xl font-serif font-bold text-white hover:text-cyan-400 transition-colors">Ancaman Laut</a>
+     <a href="#bermain" onclick="toggleMobileMenu()" class="text-2xl font-serif font-bold text-white hover:text-cyan-400 transition-colors">Cara Berpartisipasi</a>
+     <a href="#pendanaan" onclick="toggleMobileMenu()" class="text-2xl font-serif font-bold text-white hover:text-cyan-400 transition-colors">Merchandise & Donasi</a>
    </div>
  </header>
 
@@ -1080,13 +1082,12 @@
      <h3 id="modalActionTitle" class="font-serif text-2xl font-bold text-white mb-4">Aksi Komunitas</h3>
      <p id="modalActionDesc" class="text-slate-400 text-xs leading-relaxed mb-6">Penjelasan interaksi pendaftaran simulasi aksi di lapangan.</p>
      
-     <div class="space-y-4">
-       <input id="actionName" type="text" placeholder="Nama Lengkap" class="w-full bg-navy-950 border border-white/5 focus:border-cyan-400/40 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-600 outline-none transition-all">
-       <input id="actionContact" type="email" placeholder="Alamat Surel / Nomor WhatsApp" class="w-full bg-navy-950 border border-white/5 focus:border-cyan-400/40 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-600 outline-none transition-all">
-       <button onclick="submitActionData()" class="w-full py-3.5 bg-cyan-400 hover:bg-cyan-500 text-navy-950 font-bold text-xs tracking-wider uppercase rounded-xl transition-all">
-         Kirim Permintaan Aksi
-       </button>
+     <div id="actionFormContainer" class="space-y-4">
+       <!-- Dynamic fields will be injected here -->
      </div>
+     <button onclick="submitActionData()" class="w-full mt-4 py-3.5 bg-cyan-400 hover:bg-cyan-500 text-navy-950 font-bold text-xs tracking-wider uppercase rounded-xl transition-all">
+       Kirim Permintaan Aksi
+     </button>
    </div>
  </div>
 
@@ -1106,7 +1107,18 @@
 
  function toggleMobileMenu() {
    const menu = document.getElementById('mobileMenu');
-   menu.classList.toggle('hidden');
+   const btn = document.getElementById('mobileMenuBtn');
+   const isOpen = btn.classList.contains('active');
+
+   if (!isOpen) {
+     btn.classList.add('active');
+     menu.classList.remove('opacity-0', 'pointer-events-none', 'scale-110');
+     document.body.style.overflow = 'hidden';
+   } else {
+     btn.classList.remove('active');
+     menu.classList.add('opacity-0', 'pointer-events-none', 'scale-110');
+     document.body.style.overflow = 'auto';
+   }
  }
 
  function updateDonationDOM() {
@@ -1264,8 +1276,55 @@
 
  function openActionModal(title, desc) {
    const modal = document.getElementById('actionModal');
+   const container = document.getElementById('actionFormContainer');
    document.getElementById('modalActionTitle').innerText = title;
    document.getElementById('modalActionDesc').innerText = desc;
+
+   // Reset and build dynamic form
+   container.innerHTML = '';
+
+   const commonFields = [
+     { id: 'actionName', type: 'text', placeholder: 'Nama Lengkap / Instansi' },
+     { id: 'actionContact', type: 'text', placeholder: 'Email / WhatsApp' }
+   ];
+
+   let extraFields = [];
+   if (title.includes('School')) {
+     extraFields = [
+       { id: 'schoolName', type: 'text', placeholder: 'Nama Sekolah/Universitas' },
+       { id: 'participantCount', type: 'number', placeholder: 'Estimasi Jumlah Peserta' }
+     ];
+   } else if (title.includes('S.O.S')) {
+     extraFields = [
+       { id: 'sosCoords', type: 'text', placeholder: 'Koordinat GPS (Opsional)' },
+       { id: 'sosDesc', type: 'text', placeholder: 'Deskripsi Temuan (Jaring/Limbah)' }
+     ];
+   } else if (title.includes('Relawan')) {
+     extraFields = [
+       { id: 'volunteerCity', type: 'text', placeholder: 'Domisili (Kota)' },
+       { id: 'volunteerSkills', type: 'text', placeholder: 'Keahlian Khusus (jika ada)' }
+     ];
+   } else if (title.includes('Korporasi')) {
+     extraFields = [
+       { id: 'companyName', type: 'text', placeholder: 'Nama Perusahaan' },
+       { id: 'partnershipType', type: 'text', placeholder: 'Bidang Industri' }
+     ];
+   } else if (title.includes('Penyelam')) {
+     extraFields = [
+       { id: 'diverLicense', type: 'text', placeholder: 'Level Sertifikasi (Rescue/DM/Inst)' },
+       { id: 'diverLog', type: 'number', placeholder: 'Jumlah Log Dive' }
+     ];
+   }
+
+   [...commonFields, ...extraFields].forEach(field => {
+     const input = document.createElement('input');
+     input.id = field.id;
+     input.type = field.type;
+     input.placeholder = field.placeholder;
+     input.className = "w-full bg-navy-950 border border-white/5 focus:border-cyan-400/40 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-600 outline-none transition-all";
+     container.appendChild(input);
+   });
+
    modal.classList.remove('hidden');
    setTimeout(() => {
      modal.classList.remove('opacity-0');
