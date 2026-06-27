@@ -284,54 +284,44 @@
                <!-- Header Map -->
                <div class="p-6 border-b border-white/5 bg-navy-950/50 flex justify-between items-center">
                  <div class="flex items-center gap-3">
-                   <div class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
-                   <span class="font-mono text-xs text-slate-300 uppercase tracking-widest">Live Mission Log: Nusantara-1</span>
+                   <div class="w-3 h-3 rounded-full bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></div>
+                   <span class="font-mono text-xs text-cyan-400 uppercase tracking-widest flex items-center gap-2">
+                     LIVE MISSION LOG: NUSANTARA-1
+                     <span class="bg-red-500/20 text-red-500 text-[8px] px-1.5 py-0.5 rounded border border-red-500/40 animate-pulse">LIVE</span>
+                   </span>
                  </div>
-                 <span class="text-[10px] font-mono text-cyan-400">v2.4.0-Stable</span>
+                 <div class="flex items-center gap-4">
+                    <div class="hidden sm:flex items-center gap-1.5">
+                        <div class="w-1 h-4 bg-cyan-400/20"></div>
+                        <div class="w-1 h-4 bg-cyan-400/40"></div>
+                        <div class="w-1 h-4 bg-cyan-400/60 animate-pulse"></div>
+                    </div>
+                    <span class="text-[10px] font-mono text-slate-500">v2.4.0-Stable</span>
+                 </div>
                </div>
                
                <!-- Content: Visual representation of a mission -->
-               <div class="relative h-[400px] bg-navy-950 overflow-hidden">
+               <div id="mission-map" class="relative h-[400px] bg-navy-950 overflow-hidden">
                  <img src="https://images.unsplash.com/photo-1551244072-5d12893278ab?q=80&w=1200" class="w-full h-full object-cover opacity-30 grayscale" alt="Marine Map">
                  
                  <!-- Terminal Log Overlay -->
-                 <div class="absolute top-4 left-4 w-40 sm:w-56 h-28 bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg p-3 font-mono text-[8px] sm:text-[9px] text-cyan-400/70 overflow-hidden pointer-events-none terminal-scanline">
-                    <div id="mission-terminal" class="flex flex-col gap-1 transition-all duration-300">
-                      <div class="text-cyan-400">> VML-OS v2.4.0 Loading...</div>
-                      <div>> Establishing satellite link...</div>
-                      <div>> Link secured.</div>
-                      <div class="text-white/40">> Scanning coordinates...</div>
+                 <div class="absolute top-4 left-4 w-44 sm:w-64 h-32 bg-black/60 backdrop-blur-md border border-white/10 rounded-lg p-3 font-mono text-[8px] sm:text-[9px] text-cyan-400/90 overflow-hidden pointer-events-none terminal-scanline shadow-2xl z-20">
+                    <div id="mission-terminal" class="flex flex-col gap-1.5 transition-all duration-300">
+                      <div class="text-cyan-400 font-bold underline mb-1">SYSTEM BOOT SUCCESSFUL</div>
+                      <div class="text-white/60">> VML-OS v2.4.0 Initializing...</div>
+                      <div class="text-white/60">> Waiting for uplink...</div>
                     </div>
                  </div>
 
-                 <!-- Pulsing coordinate points -->
-                 <div class="absolute top-1/4 left-1/3 group/point">
-                   <div class="w-4 h-4 bg-cyan-400 rounded-full animate-ping opacity-75"></div>
-                   <div class="absolute inset-0 w-4 h-4 bg-cyan-400 rounded-full"></div>
-                   <div class="absolute top-6 left-1/2 -translate-x-1/2 w-32 bg-navy-900/90 backdrop-blur-md border border-cyan-400/30 p-2 rounded-lg opacity-0 group-hover/point:opacity-100 transition-opacity">
-                     <p class="text-[9px] font-bold text-white mb-1">Misi: Evakuasi Jaring</p>
-                     <p class="text-[8px] text-cyan-400">Status: Selesai (1.2 Ton)</p>
+                 <!-- Fixed Pulsing coordinate points -->
+                 <div class="absolute top-1/4 left-1/4 group/point z-10">
+                   <div class="w-3 h-3 bg-cyan-400 rounded-full animate-ping opacity-75"></div>
+                   <div class="absolute inset-0 w-3 h-3 bg-cyan-400 rounded-full"></div>
+                   <div class="absolute top-5 left-1/2 -translate-x-1/2 w-28 bg-navy-900/95 backdrop-blur-md border border-cyan-400/30 p-2 rounded-lg opacity-0 group-hover/point:opacity-100 transition-opacity pointer-events-none">
+                     <p class="text-[8px] font-extrabold text-white mb-0.5 uppercase tracking-tighter">Pos: HQ-VML</p>
+                     <p class="text-[7px] text-cyan-400">Status: Command Center</p>
                    </div>
                  </div>
-
-                 <div class="absolute top-1/3 right-1/4 group/point">
-                   <div class="w-4 h-4 bg-gold-400 rounded-full animate-ping opacity-75"></div>
-                   <div class="absolute inset-0 w-4 h-4 bg-gold-400 rounded-full"></div>
-                   <div class="absolute top-6 left-1/2 -translate-x-1/2 w-32 bg-navy-900/90 backdrop-blur-md border border-gold-400/30 p-2 rounded-lg opacity-0 group-hover/point:opacity-100 transition-opacity">
-                     <p class="text-[9px] font-bold text-white mb-1">Misi: Patroli Sonar</p>
-                     <p class="text-[8px] text-gold-400">Status: Berlangsung...</p>
-                   </div>
-                 </div>
-
-                 <!-- Dynamic Point (Simulated Detection) -->
-                 <div id="dynamic-point" class="absolute top-1/2 left-1/2 group/point hidden opacity-0 transition-all duration-700">
-                    <div class="w-4 h-4 bg-emerald-400 rounded-full animate-ping opacity-75"></div>
-                    <div class="absolute inset-0 w-4 h-4 bg-emerald-400 rounded-full"></div>
-                    <div class="absolute top-6 left-1/2 -translate-x-1/2 w-32 bg-navy-900/90 backdrop-blur-md border border-emerald-400/30 p-2 rounded-lg opacity-0 group-hover/point:opacity-100 transition-opacity">
-                      <p class="text-[9px] font-bold text-white mb-1">Misi: Deteksi Baru</p>
-                      <p class="text-[8px] text-emerald-400">Status: Terverifikasi</p>
-                    </div>
-                  </div>
 
                  <!-- Floating Info Overlay -->
                  <div class="absolute bottom-6 left-6 right-6 p-4 bg-navy-900/80 backdrop-blur-md border border-white/10 rounded-2xl">
@@ -1381,82 +1371,97 @@
      revealObserver.observe(el);
    });
 
-   // LIVE MISSION LOG SIMULATION
+   // LIVE MISSION LOG FLAGSHIP FEATURE
    const terminal = document.getElementById('mission-terminal');
+   const missionMap = document.getElementById('mission-map');
    const depthEl = document.getElementById('live-depth');
    const tempEl = document.getElementById('live-temp');
    const o2El = document.getElementById('live-o2');
 
-   const logMessages = [
-     "Sonar pulse sent...",
-     "Analyzing echo data...",
-     "Anomalous mass detected at 45m",
-     "Deploying ROV unit-1...",
-     "Visual link established",
-     "Ghost net identified (Nylon)",
-     "Calculating extraction vector",
-     "Pressure stable at current depth",
-     "Water salinity: 34.2 PSU",
-     "Thermal vent detected nearby",
-     "Logging impact data to blockchain",
-     "Satellite sync successful",
-     "Atmospheric pressure: 1013 hPa",
-     "Monitoring local biodiversity"
+   const missionEvents = [
+     { log: "Scanning Sector 7-Alpha...", delay: 2000 },
+     { log: "Satellite link: SECURED", delay: 1500 },
+     { log: "DETECTION: High-density polymer", delay: 2000, triggerPoint: { x: '60%', y: '40%', label: 'Polimer #A9', color: 'bg-emerald-400' } },
+     { log: "Analyzing spectral signature...", delay: 2500 },
+     { log: "ROV Scout-1: DEPLOYED", delay: 1500 },
+     { log: "Underwater visibility: 12m", delay: 3000 },
+     { log: "ALERT: Ghost Net detected", delay: 2000, triggerPoint: { x: '35%', y: '65%', label: 'Jaring Hantu #12', color: 'bg-amber-500' } },
+     { log: "Initiating retrieval sequence...", delay: 4000 },
+     { log: "Target locked at 42m depth", delay: 2000 },
+     { log: "COLLECTED: 45kg Synthetic Fiber", delay: 3000 },
+     { log: "Scanning for thermal anomalies...", delay: 3000 },
+     { log: "DETECTION: Thermal vent +2.4°C", delay: 2000, triggerPoint: { x: '75%', y: '25%', label: 'Vent Termal', color: 'bg-red-500' } },
+     { log: "Syncing log to blockchain...", delay: 2500 },
+     { log: "Status: ALL SYSTEMS GREEN", delay: 2000 }
    ];
 
    function addLogLine(text) {
      const line = document.createElement('div');
-     line.innerText = "> " + text;
-     line.classList.add('transition-opacity', 'duration-500');
+     line.innerHTML = `<span class="text-cyan-400/50">></span> ${text}`;
+     line.className = 'opacity-0 transition-opacity duration-500 text-white/80';
      terminal.appendChild(line);
 
-     // Keep only last 8 lines
      while (terminal.children.length > 8) {
        terminal.removeChild(terminal.firstChild);
      }
 
-     // Scroll effect (simple pop)
-     line.style.opacity = '0';
-     setTimeout(() => { line.style.opacity = '1'; }, 50);
+     setTimeout(() => line.classList.remove('opacity-0'), 50);
+   }
+
+   function createMapPoint(x, y, label, colorClass) {
+     const point = document.createElement('div');
+     point.className = 'absolute group/point z-10 opacity-0 transition-all duration-1000 transform scale-0';
+     point.style.left = x;
+     point.style.top = y;
+     point.innerHTML = `
+        <div class="w-3 h-3 ${colorClass} rounded-full animate-ping absolute opacity-75"></div>
+        <div class="w-3 h-3 ${colorClass} rounded-full relative shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
+        <div class="absolute top-5 left-1/2 -translate-x-1/2 w-32 bg-navy-900/95 backdrop-blur-md border border-white/20 p-2 rounded-lg opacity-0 group-hover/point:opacity-100 transition-opacity pointer-events-none shadow-xl">
+            <p class="text-[8px] font-extrabold text-white mb-0.5 uppercase tracking-tighter">${label}</p>
+            <p class="text-[7px] text-white/60">Pos: ${x}, ${y}</p>
+        </div>
+     `;
+     missionMap.appendChild(point);
+
+     // Animate In
+     setTimeout(() => {
+        point.classList.remove('opacity-0', 'scale-0');
+        point.classList.add('opacity-100', 'scale-100');
+     }, 100);
+
+     // Animate Out & Remove after 10 seconds
+     setTimeout(() => {
+        point.classList.add('opacity-0', 'scale-0');
+        setTimeout(() => point.remove(), 1000);
+     }, 10000);
+   }
+
+   let eventIndex = 0;
+   function runMissionCycle() {
+     const event = missionEvents[eventIndex];
+     addLogLine(event.log);
+
+     if (event.triggerPoint) {
+        createMapPoint(event.triggerPoint.x, event.triggerPoint.y, event.triggerPoint.label, event.triggerPoint.color);
+     }
+
+     eventIndex = (eventIndex + 1) % missionEvents.length;
+     setTimeout(runMissionCycle, event.delay);
    }
 
    function updateLiveStats() {
-     // Depth: fluctuate around 45m
-     const baseDepth = 45.2;
-     const newDepth = (baseDepth + (Math.random() * 2 - 1)).toFixed(1);
+     const newDepth = (45.2 + (Math.random() * 2 - 1)).toFixed(1);
      depthEl.innerText = `-${newDepth}m`;
 
-     // Temp: fluctuate around 26.8C
-     const baseTemp = 26.8;
-     const newTemp = (baseTemp + (Math.random() * 0.4 - 0.2)).toFixed(1);
+     const newTemp = (26.8 + (Math.random() * 0.4 - 0.2)).toFixed(1);
      tempEl.innerText = `${newTemp}°C`;
 
-     // O2: occasionally change status
      const o2States = ["Optimal", "Stable", "Nominal"];
      o2El.innerText = o2States[Math.floor(Math.random() * o2States.length)];
    }
 
-   // Random intervals for logs
-   setInterval(() => {
-     const msg = logMessages[Math.floor(Math.random() * logMessages.length)];
-     addLogLine(msg);
-
-     // Trigger dynamic point if specific message
-     if (msg.includes("Anomalous mass detected")) {
-        const dp = document.getElementById('dynamic-point');
-        dp.style.top = Math.floor(Math.random() * 60 + 20) + "%";
-        dp.style.left = Math.floor(Math.random() * 60 + 20) + "%";
-        dp.classList.remove('hidden');
-        setTimeout(() => dp.classList.remove('opacity-0'), 100);
-
-        setTimeout(() => {
-            dp.classList.add('opacity-0');
-            setTimeout(() => dp.classList.add('hidden'), 700);
-        }, 8000);
-     }
-   }, 3500);
-
-   // Regular interval for stats
+   // Start cycles
+   runMissionCycle();
    setInterval(updateLiveStats, 2000);
  };
  </script>
